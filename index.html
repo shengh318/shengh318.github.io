@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <title>Sheng Huang</title>
+                <link rel="stylesheet" type="text/css" href="css/style.css">
+                <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+                
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+        </head>
+
+        <body>
+                
+                <!---Header-->
+                <header>
+                        <a href="#" class="logo">Sheng</a>
+                        
+                        <div class="bx bx-menu" id="menu-icon"></div>
+                        
+                        <ul class="navbar">
+                                <li><a href="#home">Home</a></li>
+                                <li><a href="#about">About</a></li>
+                                <li><a href="#projects">Projects</a></li>
+                                <li><a href="#contact">Contact</a></li>
+                        </ul>
+                </header>
+                
+                <!--Start Home-->
+                <section class="home" id="home">
+                        <div class="home-text">
+                                <h4>Hello, I'm</h4>
+                                <h1>Sheng <span>Huang</span></h1>
+                                <h3>And I am a <span class="typing"></span></h3>
+                        </div>
+                </section>
+
+
+                <!--Start About-->
+                <section class="about" id="about">
+                        <div class="about-img">
+                                <img src="img/resized about.jpg">
+                        </div>
+
+                        <div class="about-text">
+                                <h2>About Me</h2>
+                                <h5>Researcher <span>& Student</span></h5>
+                                <p>I am a rising junior majoring in Computer Science and Engineering at <font class="emphasis">Massachusetts Institute of Technology (MIT)</font> with a <font class="emphasis">4.7</font> / 5.0. Over my years at MIT, I have participated in research positions, held multiple internships, and TA'ed for classes. Looking at my future, I would like to become a software engineer that creates and improves software applications.</p>
+                                <a href="Resume/HUANG Sheng 2024 Resume.pdf" download class='btn'>Download CV</a>
+                        </div>
+                </section>
+
+                <!--Start Projects-->
+                <section class="projects" id="projects">
+                        <div class="center">
+                                <h2>My Projects</h2>
+                                <p>Over the course of college, there has been various different applications personally created, <br><font class="emphasis">each</font> trying to solve a particular <font class="emphasis">personal</font> or <font class="emphasis">research</font> problem in mind.</p>
+
+                        </div>
+
+                        <div class="project-content">
+                                <div class="row">
+                                        <i class='bx bx-message-square-dots' ></i>
+                                        <h3>Current Research</h3>
+                                        <p>
+                                                Examining the origins of n-grams and investigate the how and why of these phrases have spread to news sources. In charge of designing and creating software to analyze 10TB of data. 
+                                        </p>
+                                </div>
+
+                                <div class="row">
+                                        <i class='bx bx-window-alt'></i>
+                                        <h3>POS System</h3>
+                                        <p>
+                                                Inspired from my part time job working as a waiter in a chinese restaurant, this digitizes the entire restaurant menu which in turn created a more organized and efficient register system.
+                                        </p>
+                                </div>
+
+                                <div class="row">
+                                        <i class='bx bx-laptop'></i>
+                                        <h3>Cathode Energy System</h3>
+                                        <p>
+                                                Created software based on provided research to analyze activity data of various anions and compounds to accurately predict the amount of carbon dioxide released after creating specific metal.
+                                        </p>
+                                </div>
+
+                                <div class="row">
+                                        <i class='bx bx-radar' ></i>
+                                        <h3>Performance Data Analyzer</h3>
+                                        <p>
+                                                Designed and Created a data analyzer / cleaner GUI for data collected by the company to track spending and impact. Application identifies relevant / important information and categorizes data.
+                                        </p>
+                                </div>
+
+                                <div class="row">
+                                        <i class='bx bx-joystick'></i>
+                                        <h3>Real Life Mario Kart</h3>
+                                        <p>
+                                                Inspired by Mario Kart on the Switch, designed and created a real life version of Mario Kart by software (Arduino, python server) and hardware (Esp32, motor drivers, LCD etc..) means with a group of engineers.  
+                                        </p>
+                                </div>
+
+                                <div class="row">
+                                        <i class='bx bx-cloud-lightning' ></i>
+                                        <h3>Personal Weather Man</h3>
+                                        <p>
+                                                Created a personal "weather man" that scrapes data from weather API for accurate weather information by means of software (python and C++) and hardware (Esp32, LCD, and breadboard).
+                                        </p>
+                                </div>
+
+                        </div>
+                        
+                </section>
+
+                <!---Start Contact--->
+                <section class="contact" id="contact">
+
+                        <div class="contact-form">
+                                <h2>Contact Me</h2>
+                                <p>Questions? Connect with me via email: shengh@mit.edu</p>
+                                <form action="https://formsubmit.co/37fd4e9cc9af57cd325f7808dacb5b67" method="POST">
+                                        <input type="" name="Name", placeholder="Your Name" required>
+                                        <input type="email" name="Email" id="email" placeholder="Your Email" required>
+                                        <input type="" name="Subject" placeholder="Write Something" required>
+                                        <textarea name="Message" id="" cols="30" rows="10" placeholder="Your Message" required></textarea>
+                                        <input type="submit" name="" value="submit" class="send">
+                                        
+                                </form>
+                        </div>
+
+                        <div class="contact-img">
+                                <img src="img/contact 1.jpg">
+                        </div>
+
+                </section>
+
+
+                <!--Start Footer-->
+                <div class="footer">
+                        <p>Learned From YouTube Videos. © 2022 Sheng Huang</p>
+                </div>
+
+                <script type="text/javascript" src="js/script.js"></script>
+
+                
+        </body>
+</html>
