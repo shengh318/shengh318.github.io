@@ -22,8 +22,7 @@
 
 
 html::-webkit-scrollbar{
-        width: 1vw;  
-        background:transparent;
+        width: 10px;  
 }
 
 html::-webkit-scrollbar-thumb{
