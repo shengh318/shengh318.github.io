@@ -23,21 +23,6 @@
     --p-font: 1.1rem;
 }
 
-
-html::-webkit-scrollbar {
-    width: 10px;
-}
-
-html::-webkit-scrollbar-thumb {
-    background-color: var(--main-color);
-    border-radius: 500px;
-}
-
-html::-webkit-scrollbar-track {
-    background-color: var(--text-color);
-    border-radius: 500px;
-}
-
 body {
     background: var(--bg-color);
     color: var(--text-color);
@@ -171,10 +156,10 @@ header.sticky {
     position: relative;
     display: block;
     height: 100%;
-    width: 90%;
     border-radius: 6px;
     background: #4070f4;
-    animation: progress 0.4s ease-in-out forwards;
+    /* transition: width 1s ease-in-out, opacity 1s ease-in-out; */
+    /* animation: progress 0.4s ease-in-out forwards; */
     opacity: 0;
 }
 
@@ -193,13 +178,88 @@ header.sticky {
     animation-delay: 0.2s;
 }
 
-@keyframes progress {
+.cathod-energy-system .skill-per.python {
+    width: 40%;
+    animation-delay: 0.1s;
+}
+
+.cathod-energy-system .skill-per.ros {
+    width: 60%;
+    animation-delay: 0.1s;
+}
+
+.pos-system .skill-per.python {
+    width: 80%;
+    animation-delay: 0.1s;
+}
+
+.pos-system .skill-per.sql {
+    width: 20%;
+    animation-delay: 0.1s;
+}
+
+.data-analyzer .skill-per.typescript {
+    width: 100%;
+    animation-delay: 0.1s;
+}
+
+.mario-kart .skill-per.sql {
+    width: 20%;
+    animation-delay: 0.1s;
+}
+
+.mario-kart .skill-per.python {
+    width: 30%;
+    animation-delay: 0.1s;
+}
+
+.mario-kart .skill-per.c {
+    width: 50%;
+    animation-delay: 0.1s;
+}
+
+.weather .skill-per.python {
+    width: 20%;
+    animation-delay: 0.1s;
+}
+
+.weather .skill-per.api {
+    width: 10%;
+    animation-delay: 0.1s;
+}
+
+.weather .skill-per.c {
+    width: 70%;
+    animation-delay: 0.1s;
+}
+
+.animate-forward {
+    animation: progress-forward 1s ease-in-out forwards;
+}
+
+.animate-backward {
+    animation: progress-backward 1s ease-in-out forwards;
+}
+
+
+@keyframes progress-forward {
     0% {
         width: 0;
         opacity: 1;
     }
 
     100% {
+        opacity: 1;
+    }
+}
+
+@keyframes progress-backward {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        width: 0;
         opacity: 1;
     }
 }
@@ -330,6 +390,8 @@ header.sticky {
     border-radius: 10px;
     cursor: pointer;
     transition: all .35s;
+    height: 600px;
+    width: 100%;
 }
 
 .row i {
