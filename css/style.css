@@ -386,7 +386,7 @@ header.sticky {
 
 .row {
     background: var(--secound-bg-color);
-    padding: 55px 30px;
+    padding: 8% 8%;
     border-radius: 10px;
     cursor: pointer;
     transition: all .35s;
