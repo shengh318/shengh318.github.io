@@ -25,14 +25,17 @@ import HudTerminal from './hud/HudTerminal.astro';
               </div>
 
               <div class="hud-terminal-body hud-terminal-body-bio">
+                <p class="hud-terminal-line term-msg">
+                  &gt; cat bio
+                </p>
                 <p class="hud-terminal-line term-data">
-                  I'm a graduate student at MIT, focused on computer systems. My work spans research across departments, building software tools for data analysis, and teaching.
+                  MIT CS graduate student. My research focuses on building AI-powered tools for education — developed an AI Tutor Knowledge Graph system that maps student misconceptions to targeted learning resources (published paper).
                 </p>
                 <p class="hud-terminal-line hud-terminal-line-gap term-data">
-                  I've designed and engineered research software, analyzed large-scale datasets, and guided students through coursework in the EECS department.
+                  Built research software for large-scale data analysis across departments, processing multi-terabyte datasets. Guided 200+ students through EECS coursework as a teaching assistant.
                 </p>
                 <p class="hud-terminal-line hud-terminal-line-gap term-data">
-                  I'm interested in software engineering, systems design, and building tools that solve real problems.
+                  Interested in software engineering, systems design, and building tools that bridge AI research with real-world impact.
                 </p>
                 <p class="hud-terminal-line hud-terminal-line-gap term-status">
                   STATUS: ACTIVE
@@ -63,7 +66,7 @@ import HudTerminal from './hud/HudTerminal.astro';
       cursorLine.style.visibility = 'hidden';
       cursorLine.style.opacity = '0';
     }
-  }, { threshold: 0.3 });
+  }, { rootMargin: '-10% 0px -10% 0px', threshold: 0 });
   obs.observe(section);
 })();
 </script>

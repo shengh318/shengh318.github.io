@@ -1,82 +1,1009 @@
 ---
-import { skills } from '../data/projects';
+import { skills, projects } from '../data/projects';
 
-const icons: Record<string, string> = {
-  python: 'M5 2h6a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zM4 6h8',
-  typescript: 'M4 3h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM6 8h4M8 6v4',
-  cplusplus: 'M5 3h6a2 2 0 0 1 2 2v2l-3 1 3 1v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2l3-1-3-1V5a2 2 0 0 1 2-2z',
-  database: 'M3 5c0-1.1 2.7-2 6-2s6 .9 6 2v6c0 1.1-2.7 2-6 2s-6-.9-6-2V5zM3 8c0 1.1 2.7 2 6 2s6-.9 6-2',
-  robot: 'M5 6h6a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zM8 4V2M6.5 9h3',
-  git: 'M6 3v8a2 2 0 0 0 2 2h2M6 5l-3 2 3 2',
-  terminal: 'M4 5l3 3-3 3M9 11h3',
-  container: 'M3 4a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4zM3 7h10M3 10h10',
-  chip: 'M5 5h6v6H5V5zM4 8H2M14 8h-2M8 4V2M8 14v-2',
-  cpu: 'M4 5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5zM2 8H1M15 8h-1M8 3V1M8 15v-2',
-  wifi: 'M4 6c2-1.5 6-1.5 8 0M5.5 8.5c1.5-1 4-1 5.5 0M7 11c.5-.5 1.5-.5 2 0',
-  eye: 'M2 8s2.5-4.5 7-4.5 7 4.5 7 4.5-2.5 4.5-7 4.5S2 8 2 8zM9 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z',
-};
+const projectMap: Record<string, string> = {};
+for (const p of projects) {
+  projectMap[p.id] = p.name;
+}
 
 const categories = [
-  { key: 'languages', label: 'Languages', tag: 'LANG' },
-  { key: 'tools', label: 'Frameworks & Tools', tag: 'TOOL' },
-  { key: 'hardware', label: 'Hardware & Embedded', tag: 'HWR' },
-] as const;
+  { key: 'languages', label: 'LANGUAGES', items: skills.languages },
+  { key: 'tools', label: 'FRAMEWORKS & TOOLS', items: skills.tools },
+  { key: 'hardware', label: 'HARDWARE & EMBEDDED', items: skills.hardware },
+];
 ---
 
 <section id="skills" class="section-bg relative py-24 md:py-32 px-6 md:px-[8%] border-t border-border overflow-hidden">
   <div class="section-bg-glow" style="top: 40%; left: 20%;"></div>
   <div class="section-bg-glow" style="top: 60%; left: 80%;"></div>
+  <div class="skills-carbon-bg" aria-hidden="true"></div>
+  <div class="skills-grid-bg" aria-hidden="true"></div>
 
   <div class="max-w-5xl mx-auto relative z-10">
     <div class="section-title reveal">
       <span class="section-title-text">_SKILLS</span>
       <span class="section-title-line"></span>
+      <span class="skills-sys-tag">[SYS: ONLINE]</span>
     </div>
 
-    <div class="skills-dashboard reveal-stagger">
-      <div class="hud-core" aria-hidden="true">
-        <canvas id="skills-canvas" class="skills-canvas"></canvas>
-        <div class="hud-core-borders"></div>
-        <div class="hud-core-status">SYS: ACTIVE</div>
+    <div class="skills-hud reveal-stagger">
+      <div class="skills-frame">
+        <span class="skills-frame-cnr tl"></span>
+        <span class="skills-frame-cnr tr"></span>
+        <span class="skills-frame-cnr bl"></span>
+        <span class="skills-frame-cnr br"></span>
+        <span class="skills-frame-edge t"></span>
+        <span class="skills-frame-edge r"></span>
+        <span class="skills-frame-edge b"></span>
+        <span class="skills-frame-edge l"></span>
       </div>
 
-      {categories.map((cat, ci) => (
-        <div class="holo-panel" style="--panel-idx: {ci}">
-          <div class="holo-panel-header">
-            <span class="holo-panel-tag">[{cat.tag}]</span>
-            <span class="holo-panel-title">{cat.label}</span>
-          </div>
-          <div class="holo-panel-body">
-            {skills[cat.key].map((skill, i) => (
-              <div class="skill-entry" style="--idx: {i}">
-                <svg class="skill-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
-                  <path d={icons[skill.icon] || icons.chip} />
-                </svg>
-                <span class="skill-name">{skill.name}</span>
-                <div class="skill-meter">
-                  <div class="skill-meter-fill" style="--pct: {skill.percent}"></div>
-                </div>
-                <span class="skill-pct">{skill.percent}%</span>
+      <svg class="skills-corner-traces" viewBox="0 0 800 700" preserveAspectRatio="none" aria-hidden="true">
+        <path class="cTrace" d="M400,280 L120,50 L60,50" />
+        <path class="cTrace" d="M400,280 L680,50 L740,50" />
+        <path class="cTrace" d="M400,280 L100,600 L60,650" />
+        <path class="cTrace" d="M400,280 L700,600 L740,650" />
+        <circle class="cNode" cx="60" cy="50" r="2" />
+        <circle class="cNode" cx="740" cy="50" r="2" />
+        <circle class="cNode" cx="60" cy="650" r="2" />
+        <circle class="cNode" cx="740" cy="650" r="2" />
+        <circle class="cGlow" cx="400" cy="280" r="35" />
+      </svg>
+
+      <svg class="skills-wireframe" viewBox="0 0 200 200" aria-hidden="true">
+        <path class="wf-front" d="M50,60 L150,60 L150,140 L50,140 Z" />
+        <path class="wf-back" d="M70,40 L170,40 L170,120 L70,120 Z" />
+        <line class="wf-line" x1="50" y1="60" x2="70" y2="40" />
+        <line class="wf-line" x1="150" y1="60" x2="170" y2="40" />
+        <line class="wf-line" x1="150" y1="140" x2="170" y2="120" />
+        <line class="wf-line" x1="50" y1="140" x2="70" y2="120" />
+      </svg>
+
+      <div class="skills-crypto" aria-hidden="true">
+        <span class="crypto-chunk" style="top:12%;left:5%">0x7A3F</span>
+        <span class="crypto-chunk" style="top:8%;left:78%">11010010</span>
+        <span class="crypto-chunk" style="top:55%;left:3%">0xBF10</span>
+        <span class="crypto-chunk" style="top:70%;left:82%">10101100</span>
+        <span class="crypto-chunk" style="top:40%;left:88%">0x4E2A</span>
+      </div>
+
+      <div class="skills-lensflare" aria-hidden="true"></div>
+
+      <div class="skills-top-status">
+        <span class="skills-top-sys">[SYS: READY]</span>
+
+        <span class="skills-top-labels">
+          <span class="tlabel">&gt;_TERMINAL_READY</span>
+          <span class="tlabel sep">|</span>
+          <span class="tlabel">HUD v2.4</span>
+        </span>
+      </div>
+
+      <div class="skills-reactor-zone">
+        <canvas id="skills-reactor" aria-hidden="true"></canvas>
+        <svg class="skills-traces" viewBox="0 0 400 320" preserveAspectRatio="xMidYMid meet">
+          <path class="trace-line" d="M200,160 L130,70 L95,55" />
+          <path class="trace-line" d="M200,160 L270,70 L305,55" />
+          <path class="trace-line" d="M200,160 L145,105 L105,85" />
+          <path class="trace-line" d="M200,160 L255,105 L295,85" />
+          <circle class="trace-node" cx="95" cy="55" r="2" />
+          <circle class="trace-node" cx="305" cy="55" r="2" />
+          <circle class="trace-node" cx="105" cy="85" r="1.5" />
+          <circle class="trace-node" cx="295" cy="85" r="1.5" />
+          <circle class="trace-glow" cx="200" cy="160" r="30" />
+        </svg>
+      </div>
+
+      <div class="skills-cards">
+        {categories.map((cat) => (
+          <div class="skill-card">
+            <span class="skill-card-cnr tl"></span>
+            <span class="skill-card-cnr tr"></span>
+            <span class="skill-card-cnr bl"></span>
+            <span class="skill-card-cnr br"></span>
+            <div class="skill-card-inner">
+              <div class="skill-card-hdr">
+                <span class="skill-card-prompt">&gt;</span>
+                <span class="skill-card-title">{cat.label}</span>
               </div>
-            ))}
+              <div class="skill-card-body">
+                {cat.items.map((skill) => {
+                  const refs = skill.projectRefs || [];
+                  const projectNames = refs.map(id => projectMap[id]).filter(Boolean);
+                  return (
+                    <div class="skill-row" data-projects={projectNames.length > 0 ? projectNames.join(',') : undefined}>
+                      <span class="skill-row-dots">
+                        <span class="sdot on"></span>
+                        <span class={`sdot ${skill.level === 'expert' || skill.level === 'proficient' ? 'on' : ''}`}></span>
+                        <span class={`sdot ${skill.level === 'expert' ? 'on' : ''}`}></span>
+                      </span>
+                      <span class="skill-row-name">{skill.name}</span>
+                      <span class="skill-row-meta">{skill.years}y{refs.length > 0 ? ` · ${refs.length}p` : ''}</span>
+                      {projectNames.length > 0 && (
+                        <div class="skill-row-tooltip">
+                          <span class="tooltip-label">[PROJECTS]</span>
+                          <span class="tooltip-projs">{projectNames.join(' · ')}</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+
+      <div class="skills-radars">
+        <svg class="skills-radar left" viewBox="0 0 80 80" aria-hidden="true">
+          <path d="M80,80 L80,20 A60,60 0 0,0 20,80 Z" fill="none" stroke="rgba(20,184,166,0.12)" stroke-width="0.6" />
+          <path class="radar-sweep" d="M80,80 L80,40 A40,40 0 0,0 40,80 Z" fill="none" stroke="rgba(20,184,166,0.2)" stroke-width="0.5" />
+          <circle cx="35" cy="76" r="1.2" fill="rgba(20,184,166,0.4)" />
+          <circle cx="72" cy="38" r="1" fill="rgba(20,184,166,0.3)" />
+        </svg>
+        <svg class="skills-radar right" viewBox="0 0 80 80" aria-hidden="true">
+          <path d="M0,80 L0,20 A60,60 0 0,1 60,80 Z" fill="none" stroke="rgba(20,184,166,0.12)" stroke-width="0.6" />
+          <path class="radar-sweep" d="M0,80 L0,40 A40,40 0 0,1 40,80 Z" fill="none" stroke="rgba(20,184,166,0.2)" stroke-width="0.5" />
+          <circle cx="45" cy="76" r="1.2" fill="rgba(20,184,166,0.4)" />
+          <circle cx="8" cy="38" r="1" fill="rgba(20,184,166,0.3)" />
+        </svg>
+      </div>
+
+      <div class="skills-scanner"></div>
+
+      <div class="skills-hscan-wrap" aria-hidden="true">
+        <span class="skills-hscan" style="top:15%"></span>
+        <span class="skills-hscan" style="top:35%;animation-delay:1.2s"></span>
+        <span class="skills-hscan" style="top:55%;animation-delay:2.4s"></span>
+        <span class="skills-hscan" style="top:75%;animation-delay:0.6s"></span>
+      </div>
+
+      <div class="skills-equalizer" aria-hidden="true">
+        <span class="eq-bar" style="height:55%"></span>
+        <span class="eq-bar" style="height:25%"></span>
+        <span class="eq-bar" style="height:70%"></span>
+        <span class="eq-bar" style="height:40%"></span>
+        <span class="eq-bar" style="height:90%"></span>
+        <span class="eq-bar" style="height:35%"></span>
+        <span class="eq-bar" style="height:65%"></span>
+        <span class="eq-bar" style="height:20%"></span>
+        <span class="eq-bar" style="height:80%"></span>
+        <span class="eq-bar" style="height:45%"></span>
+        <span class="eq-bar" style="height:60%"></span>
+        <span class="eq-bar" style="height:30%"></span>
+      </div>
+
+      <div class="skills-footer">
+        <span class="skills-foot-cursor">&gt;_</span>
+      </div>
     </div>
   </div>
 </section>
 
+<style>
+  .skills-sys-tag {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.6rem;
+    color: rgba(20, 184, 166, 0.35);
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+  }
+
+  .skills-carbon-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(255, 255, 255, 0.012) 2px,
+      rgba(255, 255, 255, 0.012) 3px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,
+      transparent 2px,
+      rgba(255, 255, 255, 0.008) 2px,
+      rgba(255, 255, 255, 0.008) 3px
+    );
+  }
+
+  .skills-grid-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.08;
+    background-image:
+      linear-gradient(60deg, rgba(20, 184, 166, 0.5) 1px, transparent 1px),
+      linear-gradient(-60deg, rgba(20, 184, 166, 0.5) 1px, transparent 1px);
+    background-size: 36px 62px;
+  }
+
+  .skills-hud {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: radial-gradient(ellipse at 50% 25%, rgba(15, 15, 15, 0.6), rgba(10, 10, 10, 0.8));
+    border: 1px solid rgba(20, 184, 166, 0.08);
+    border-radius: 4px;
+    padding: 3.5rem 2rem 2.5rem;
+    overflow: hidden;
+    min-height: 480px;
+  }
+
+  .skills-frame {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .skills-frame-cnr {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+  }
+
+  .skills-frame-cnr.tl {
+    top: 6px; left: 6px;
+    border-top: 1.5px solid rgba(20, 184, 166, 0.25);
+    border-left: 1.5px solid rgba(20, 184, 166, 0.25);
+  }
+  .skills-frame-cnr.tr {
+    top: 6px; right: 6px;
+    border-top: 1.5px solid rgba(20, 184, 166, 0.25);
+    border-right: 1.5px solid rgba(20, 184, 166, 0.25);
+  }
+  .skills-frame-cnr.bl {
+    bottom: 6px; left: 6px;
+    border-bottom: 1.5px solid rgba(20, 184, 166, 0.25);
+    border-left: 1.5px solid rgba(20, 184, 166, 0.25);
+  }
+  .skills-frame-cnr.br {
+    bottom: 6px; right: 6px;
+    border-bottom: 1.5px solid rgba(20, 184, 166, 0.25);
+    border-right: 1.5px solid rgba(20, 184, 166, 0.25);
+  }
+
+  .skills-frame-edge {
+    position: absolute;
+  }
+  .skills-frame-edge.t { top: 0; left: 40px; right: 40px; height: 1px; background: linear-gradient(90deg, transparent, rgba(20,184,166,0.08), transparent); }
+  .skills-frame-edge.b { bottom: 0; left: 40px; right: 40px; height: 1px; background: linear-gradient(90deg, transparent, rgba(20,184,166,0.08), transparent); }
+  .skills-frame-edge.l { left: 0; top: 40px; bottom: 40px; width: 1px; background: linear-gradient(180deg, transparent, rgba(20,184,166,0.08), transparent); }
+  .skills-frame-edge.r { right: 0; top: 40px; bottom: 40px; width: 1px; background: linear-gradient(180deg, transparent, rgba(20,184,166,0.08), transparent); }
+
+  .skills-reactor-zone {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  #skills-reactor {
+    display: block;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .skills-traces {
+    position: absolute;
+    inset: -40px -80px;
+    width: auto;
+    height: auto;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .trace-line {
+    fill: none;
+    stroke: rgba(20, 184, 166, 0.12);
+    stroke-width: 0.6;
+    stroke-dasharray: 4 3;
+    animation: traceDrift 3s linear infinite;
+  }
+
+  .trace-node {
+    fill: rgba(20, 184, 166, 0.3);
+    animation: traceBlip 2s ease-in-out infinite;
+  }
+
+  .trace-glow {
+    fill: rgba(20, 184, 166, 0.03);
+  }
+
+  @keyframes traceDrift {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -14; }
+  }
+
+  @keyframes traceBlip {
+    0%, 100% { opacity: 0.3; r: 2; }
+    50% { opacity: 1; r: 2.5; }
+  }
+
+  .skills-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 2;
+    max-width: 32rem;
+    margin: auto;
+    width: 100%;
+  }
+
+  .skill-card {
+    position: relative;
+    border-radius: 6px;
+    background: rgba(18, 18, 18, 0.6);
+    border: 1px solid rgba(20, 184, 166, 0.1);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    transition: border-color 0.3s, box-shadow 0.3s;
+    overflow: visible;
+  }
+
+  .skill-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(20, 184, 166, 0.02), transparent 60%);
+    pointer-events: none;
+    border-radius: 6px;
+  }
+
+  .skill-card::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s;
+    box-shadow: 0 0 14px rgba(20, 184, 166, 0.04), inset 0 0 14px rgba(20, 184, 166, 0.02);
+  }
+
+  .skill-card:hover {
+    border-color: rgba(20, 184, 166, 0.25);
+    box-shadow: 0 0 30px rgba(20, 184, 166, 0.04), inset 0 0 20px rgba(20, 184, 166, 0.015);
+  }
+
+  .skill-card:hover::after {
+    opacity: 1;
+  }
+
+  .skill-card-cnr {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    z-index: 2;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+
+  .skill-card:hover .skill-card-cnr {
+    opacity: 1;
+  }
+
+  .skill-card-cnr.tl { top: -2px; left: -2px; border-top: 1.5px solid rgba(20,184,166,0.5); border-left: 1.5px solid rgba(20,184,166,0.5); border-radius: 2px 0 0 0; box-shadow: 0 0 6px rgba(20,184,166,0.08); }
+  .skill-card-cnr.tr { top: -2px; right: -2px; border-top: 1.5px solid rgba(20,184,166,0.5); border-right: 1.5px solid rgba(20,184,166,0.5); border-radius: 0 2px 0 0; box-shadow: 0 0 6px rgba(20,184,166,0.08); }
+  .skill-card-cnr.bl { bottom: -2px; left: -2px; border-bottom: 1.5px solid rgba(20,184,166,0.5); border-left: 1.5px solid rgba(20,184,166,0.5); border-radius: 0 0 0 2px; box-shadow: 0 0 6px rgba(20,184,166,0.08); }
+  .skill-card-cnr.br { bottom: -2px; right: -2px; border-bottom: 1.5px solid rgba(20,184,166,0.5); border-right: 1.5px solid rgba(20,184,166,0.5); border-radius: 0 0 2px 0; box-shadow: 0 0 6px rgba(20,184,166,0.08); }
+
+  .skill-card-inner {
+    padding: 0.9rem 1.25rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .skill-card-hdr {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(20, 184, 166, 0.07);
+  }
+
+  .skill-card-prompt {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.65rem;
+    color: rgba(20, 184, 166, 0.5);
+    animation: cursorBlink 1s step-end infinite;
+  }
+
+  .skill-card-title {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(20, 184, 166, 0.85);
+    letter-spacing: 0.06em;
+    text-shadow: 0 0 8px rgba(20, 184, 166, 0.15);
+  }
+
+  .skill-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.2rem 0;
+    position: relative;
+  }
+
+  .skill-row-dots {
+    display: inline-flex;
+    gap: 3px;
+    align-items: center;
+    flex-shrink: 0;
+    width: 1.6rem;
+  }
+
+  .sdot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    border: 1px solid rgba(20, 184, 166, 0.15);
+    background: transparent;
+    transition: all 0.3s;
+    flex-shrink: 0;
+  }
+
+  .sdot.on {
+    background: rgba(20, 184, 166, 0.65);
+    border-color: rgba(20, 184, 166, 0.4);
+    box-shadow: 0 0 6px rgba(20, 184, 166, 0.2);
+  }
+
+  .skill-row:hover .sdot.on {
+    box-shadow: 0 0 10px rgba(20, 184, 166, 0.35);
+  }
+
+  .skill-row-icon {
+    font-size: 0.5rem;
+    color: rgba(20, 184, 166, 0.35);
+    flex-shrink: 0;
+    width: 0.7rem;
+    text-align: center;
+  }
+
+  .skill-row-name {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.8rem;
+    color: #e8e8e8;
+    letter-spacing: 0.02em;
+    text-shadow: 0 0 6px rgba(20, 184, 166, 0.06);
+    transition: color 0.3s;
+  }
+
+  .skill-row:hover .skill-row-name {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(20, 184, 166, 0.15);
+  }
+
+  .skill-row-meta {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.5rem;
+    color: rgba(20, 184, 166, 0.2);
+    letter-spacing: 0.03em;
+    margin-left: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
+    transition: color 0.3s;
+  }
+
+  .skill-row:hover .skill-row-meta {
+    color: rgba(20, 184, 166, 0.45);
+  }
+
+  .skill-row-tooltip {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 1.8rem;
+    background: rgba(8, 8, 8, 0.97);
+    border: 1px solid rgba(20, 184, 166, 0.15);
+    border-radius: 3px;
+    padding: 0.3rem 0.5rem;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.55rem;
+    color: rgba(20, 184, 166, 0.7);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(3px);
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 20;
+    box-shadow: 0 0 16px rgba(20, 184, 166, 0.06);
+    line-height: 1.4;
+  }
+
+  .skill-row:hover .skill-row-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tooltip-label {
+    font-weight: 600;
+    color: rgba(20, 184, 166, 0.5);
+    letter-spacing: 0.06em;
+    margin-right: 0.3rem;
+  }
+
+  .tooltip-projs {
+    color: rgba(20, 184, 166, 0.4);
+    letter-spacing: 0.02em;
+  }
+
+  .skills-radars {
+    position: absolute;
+    bottom: 0.75rem;
+    left: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .skills-radar {
+    width: 48px;
+    height: 48px;
+    opacity: 0.7;
+  }
+
+  .radar-sweep {
+    animation: radarSpin 4s linear infinite;
+    transform-origin: bottom right;
+  }
+
+  .skills-radar.right .radar-sweep {
+    transform-origin: bottom left;
+  }
+
+  @keyframes radarSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .skills-scanner {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.08), transparent);
+    z-index: 1;
+    pointer-events: none;
+    animation: scanMove 5s ease-in-out infinite;
+  }
+
+  @keyframes scanMove {
+    0% { top: 5%; opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { top: 95%; opacity: 0; }
+  }
+
+  .skills-corner-traces {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .cTrace {
+    fill: none;
+    stroke: rgba(20, 184, 166, 0.08);
+    stroke-width: 0.5;
+    stroke-dasharray: 3 4;
+    animation: cTraceDrift 4s linear infinite;
+  }
+
+  .cNode {
+    fill: rgba(20, 184, 166, 0.15);
+    animation: traceBlip 2.5s ease-in-out infinite;
+  }
+
+  .cGlow {
+    fill: rgba(20, 184, 166, 0.02);
+    animation: cGlowPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes cTraceDrift {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -14; }
+  }
+
+  @keyframes cGlowPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  .skills-wireframe {
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.04;
+  }
+
+  .wf-front, .wf-back {
+    fill: none;
+    stroke: rgba(20, 184, 166, 0.4);
+    stroke-width: 0.5;
+  }
+
+  .wf-line {
+    stroke: rgba(20, 184, 166, 0.25);
+    stroke-width: 0.4;
+  }
+
+  .skills-crypto {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .crypto-chunk {
+    position: absolute;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.5rem;
+    color: rgba(20, 184, 166, 0.07);
+    letter-spacing: 0.1em;
+    user-select: none;
+    white-space: nowrap;
+    animation: cryptoFade 6s ease-in-out infinite;
+  }
+
+  .crypto-chunk:nth-child(2) { animation-delay: 1.5s; }
+  .crypto-chunk:nth-child(3) { animation-delay: 3s; }
+  .crypto-chunk:nth-child(4) { animation-delay: 1s; }
+  .crypto-chunk:nth-child(5) { animation-delay: 4s; }
+
+  @keyframes cryptoFade {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  .skills-lensflare {
+    position: absolute;
+    top: -20px;
+    left: 15%;
+    right: 15%;
+    height: 60px;
+    pointer-events: none;
+    z-index: 1;
+    background: radial-gradient(ellipse at 50% 0%, rgba(20, 184, 166, 0.04) 0%, transparent 70%);
+    opacity: 0.6;
+    animation: lensPulse 4s ease-in-out infinite;
+  }
+
+  @keyframes lensPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  .skills-hscan-wrap {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+  }
+
+  .skills-hscan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 5%, rgba(20, 184, 166, 0.06) 30%, rgba(20, 184, 166, 0.1) 50%, rgba(20, 184, 166, 0.06) 70%, transparent 95%);
+    animation: hScanMove 4s ease-in-out infinite;
+    opacity: 0;
+  }
+
+  @keyframes hScanMove {
+    0% { transform: translateX(-100%); opacity: 0; }
+    15% { opacity: 0.5; }
+    50% { transform: translateX(100%); opacity: 0.8; }
+    85% { opacity: 0.5; }
+    100% { transform: translateX(200%); opacity: 0; }
+  }
+
+  .skills-equalizer {
+    position: absolute;
+    bottom: 2.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 14px;
+    z-index: 2;
+    pointer-events: none;
+    opacity: 0.35;
+  }
+
+  .eq-bar {
+    display: block;
+    width: 2px;
+    background: linear-gradient(to top, rgba(20, 184, 166, 0.2), rgba(20, 184, 166, 0.5));
+    border-radius: 1px 1px 0 0;
+    transform-origin: bottom;
+    animation: eqWave 1.2s ease-in-out infinite;
+    animation-delay: calc(var(--i, 0) * 0.1s);
+  }
+
+  .eq-bar:nth-child(1) { --i: 0; }
+  .eq-bar:nth-child(2) { --i: 1; }
+  .eq-bar:nth-child(3) { --i: 2; }
+  .eq-bar:nth-child(4) { --i: 3; }
+  .eq-bar:nth-child(5) { --i: 4; }
+  .eq-bar:nth-child(6) { --i: 5; }
+  .eq-bar:nth-child(7) { --i: 6; }
+  .eq-bar:nth-child(8) { --i: 7; }
+  .eq-bar:nth-child(9) { --i: 8; }
+  .eq-bar:nth-child(10) { --i: 9; }
+  .eq-bar:nth-child(11) { --i: 10; }
+  .eq-bar:nth-child(12) { --i: 11; }
+
+  @keyframes eqWave {
+    0%, 100% { transform: scaleY(0.25); }
+    50% { transform: scaleY(1); }
+  }
+
+  .skills-top-status {
+    position: absolute;
+    top: 1.2rem;
+    left: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .skills-top-sys {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(20, 184, 166, 0.7);
+    letter-spacing: 0.12em;
+    text-shadow: 0 0 10px rgba(20, 184, 166, 0.25);
+  }
+
+  .skills-top-cursor {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(20, 184, 166, 0.75);
+    animation: cursorBlink 1s step-end infinite;
+    text-shadow: 0 0 10px rgba(20, 184, 166, 0.25);
+  }
+
+  .skills-top-labels {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 0.5rem;
+  }
+
+  .tlabel {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: rgba(20, 184, 166, 0.55);
+    letter-spacing: 0.08em;
+    text-shadow: 0 0 8px rgba(20, 184, 166, 0.15);
+  }
+
+  .tlabel.sep {
+    color: rgba(20, 184, 166, 0.2);
+  }
+
+  .skills-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+
+  .skills-foot-cursor {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.55rem;
+    color: rgba(20, 184, 166, 0.15);
+    animation: cursorBlink 1s step-end infinite;
+  }
+
+  @keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @media (max-width: 1023px) {
+    #skills-reactor {
+      width: 140px;
+      height: 140px;
+    }
+
+    .skills-traces {
+      display: none;
+    }
+
+    .skills-corner-traces {
+      display: none;
+    }
+
+    .skills-wireframe {
+      display: none;
+    }
+
+    .skills-crypto {
+      display: none;
+    }
+
+    .skills-lensflare {
+      display: none;
+    }
+
+    .skills-hscan-wrap {
+      display: none;
+    }
+
+    .skills-equalizer {
+      display: none;
+    }
+
+    .skills-top-status {
+      display: none;
+    }
+
+    .skills-sys-tag {
+      display: none;
+    }
+
+  }
+
+  @media (max-width: 767px) {
+    #skills-reactor {
+      width: 100px;
+      height: 100px;
+    }
+
+    .skills-hud {
+      padding: 2.5rem 1rem 1.5rem;
+      min-height: 360px;
+    }
+
+    .skills-wireframe {
+      display: none;
+    }
+
+    .skills-crypto {
+      display: none;
+    }
+
+    .skills-lensflare {
+      display: none;
+    }
+
+    .skills-hscan-wrap {
+      display: none;
+    }
+
+    .skills-equalizer {
+      display: none;
+    }
+
+    .skills-corner-traces {
+      display: none;
+    }
+
+    .skills-top-status {
+      display: none;
+    }
+
+    .skills-cards {
+      max-width: 100%;
+    }
+
+    .skill-card-inner {
+      padding: 0.7rem 1rem;
+    }
+
+    .skill-card-title {
+      font-size: 0.65rem;
+    }
+
+    .skill-row-name {
+      font-size: 0.75rem;
+    }
+
+    .skills-radar {
+      width: 36px;
+      height: 36px;
+    }
+
+    .skills-footer {
+      margin-top: 1rem;
+    }
+
+    .skills-frame-cnr {
+      width: 20px;
+      height: 20px;
+    }
+
+    .skills-frame-edge.t,
+    .skills-frame-edge.b {
+      left: 30px;
+      right: 30px;
+    }
+
+    .skills-frame-edge.l,
+    .skills-frame-edge.r {
+      top: 30px;
+      bottom: 30px;
+    }
+
+    .skills-scanner {
+      display: none;
+    }
+
+    .skills-sys-tag {
+      display: none;
+    }
+
+    .skill-row-meta {
+      font-size: 0.45rem;
+    }
+
+    .skill-row-tooltip {
+      display: none;
+    }
+  }
+</style>
+
 <script>
 (function() {
-  const canvas = document.getElementById('skills-canvas');
+  const canvas = document.getElementById('skills-reactor');
   if (!canvas) return;
 
-  function initCanvas() {
+  let animId;
+  let size = 180;
+
+  function initReactor() {
     const container = canvas.parentElement;
     if (!container) return;
+
     const isMobile = window.matchMedia('(max-width: 767px)').matches;
-    const maxSize = isMobile ? 200 : 320;
-    const size = Math.min(container.getBoundingClientRect().width, container.getBoundingClientRect().height, maxSize);
+    const isTablet = window.matchMedia('(max-width: 1023px)').matches;
+    size = isMobile ? 100 : (isTablet ? 140 : 180);
+
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = size * dpr;
     canvas.height = size * dpr;
@@ -88,150 +1015,127 @@ const categories = [
 
     const cx = size / 2;
     const cy = size / 2;
-    const R = size * 0.38;
+    const R = size * 0.42;
     let scanAngle = 0;
-
-    const numParticles = isMobile ? 8 : 22;
-    const particles = Array.from({ length: numParticles }, () => ({
-      x: Math.random() * size,
-      y: Math.random() * size,
-      vx: (Math.random() - 0.5) * 0.25,
-      vy: (Math.random() - 0.5) * 0.25,
-      r: Math.random() * 1.5 + 0.5,
-      a: Math.random() * 0.35 + 0.08,
-    }));
-
-    const numOrbiters = isMobile ? 4 : 6;
-    const orbiters = Array.from({ length: numOrbiters }, (_, i) => ({
-      angle: (i / numOrbiters) * Math.PI * 2 + Math.random() * 0.5,
-      radius: R * (0.5 + Math.random() * 0.3),
-      speed: (0.002 + Math.random() * 0.002) * (i % 2 === 0 ? 1 : -1),
-      size: 1.5 + Math.random() * 1.5,
-    }));
-
-    let animId;
 
     function draw() {
       const now = Date.now();
       ctx.clearRect(0, 0, size, size);
 
       for (let i = 0; i < 4; i++) {
-        const rr = R * (0.2 + i * 0.24);
+        const rr = R * (0.25 + i * 0.22);
         ctx.beginPath();
         ctx.arc(cx, cy, rr, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(20, 184, 166, ${0.03 + i * 0.02})`;
-        ctx.lineWidth = 0.3 + i * 0.15;
-        if (i % 2 === 0) ctx.setLineDash([3, 7]);
-        else ctx.setLineDash([]);
+        ctx.strokeStyle = `rgba(20, 184, 166, ${0.04 + i * 0.035})`;
+        ctx.lineWidth = 0.3 + i * 0.12;
+        if (i % 2 === 0) {
+          ctx.setLineDash([3, 6]);
+        } else {
+          ctx.setLineDash([]);
+        }
         ctx.stroke();
       }
       ctx.setLineDash([]);
 
-      const rot = now / 2500;
+      const rot = now / 3000;
       for (let i = 0; i < 2; i++) {
-        const rr = R * (0.35 + i * 0.28);
+        const rr = R * (0.4 + i * 0.25);
         const offset = rot * (i === 0 ? 1 : -1);
         ctx.beginPath();
-        ctx.arc(cx, cy, rr, offset, offset + Math.PI * 1.2);
-        ctx.strokeStyle = `rgba(20, 184, 166, ${0.12 + i * 0.08})`;
-        ctx.lineWidth = 1;
+        ctx.arc(cx, cy, rr, offset, offset + Math.PI * 1.1);
+        ctx.strokeStyle = `rgba(20, 184, 166, ${0.12 + i * 0.06})`;
+        ctx.lineWidth = 1.2;
         ctx.stroke();
       }
 
-      scanAngle += 0.01;
-      const sweepR = R * 0.85;
+      scanAngle += 0.008;
+      const sweepR = R * 0.9;
       ctx.beginPath();
       ctx.moveTo(cx, cy);
-      ctx.arc(cx, cy, sweepR, scanAngle - 0.12, scanAngle + 0.12);
+      ctx.arc(cx, cy, sweepR, scanAngle - 0.1, scanAngle + 0.1);
       ctx.closePath();
-      ctx.fillStyle = 'rgba(20, 184, 166, 0.02)';
+      ctx.fillStyle = 'rgba(20, 184, 166, 0.015)';
       ctx.fill();
-      ctx.strokeStyle = 'rgba(20, 184, 166, 0.2)';
-      ctx.lineWidth = 0.8;
+      ctx.strokeStyle = 'rgba(20, 184, 166, 0.15)';
+      ctx.lineWidth = 0.6;
       ctx.beginPath();
-      ctx.arc(cx, cy, sweepR, scanAngle - 0.12, scanAngle + 0.12);
+      ctx.arc(cx, cy, sweepR, scanAngle - 0.1, scanAngle + 0.1);
       ctx.stroke();
 
-      const pulse = 0.5 + 0.5 * Math.sin(now / 900);
-      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.35);
-      grad.addColorStop(0, `rgba(20, 184, 166, ${0.05 + pulse * 0.06})`);
+      const pulse = 0.5 + 0.5 * Math.sin(now / 1000);
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * 0.4);
+      grad.addColorStop(0, `rgba(20, 184, 166, ${0.06 + pulse * 0.08})`);
+      grad.addColorStop(0.4, `rgba(20, 184, 166, ${0.03 + pulse * 0.04})`);
       grad.addColorStop(1, 'transparent');
       ctx.fillStyle = grad;
       ctx.beginPath();
-      ctx.arc(cx, cy, R * 0.35, 0, Math.PI * 2);
+      ctx.arc(cx, cy, R * 0.4, 0, Math.PI * 2);
       ctx.fill();
 
-      ctx.fillStyle = `rgba(20, 184, 166, ${0.4 + pulse * 0.25})`;
+      ctx.fillStyle = `rgba(20, 184, 166, ${0.5 + pulse * 0.3})`;
+      ctx.shadowColor = 'rgba(20, 184, 166, 0.4)';
+      ctx.shadowBlur = 12;
       ctx.beginPath();
-      ctx.arc(cx, cy, 2.5 + pulse * 1.5, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 2.5 + pulse * 1.2, 0, Math.PI * 2);
       ctx.fill();
+      ctx.shadowBlur = 0;
 
       const wavePhase = (now % 3000) / 3000;
       for (let w = 0; w < 2; w++) {
         const wp = (wavePhase + w / 2) % 1;
-        ctx.strokeStyle = `rgba(20, 184, 166, ${(1 - wp) * 0.05})`;
-        ctx.lineWidth = 0.8;
+        ctx.strokeStyle = `rgba(20, 184, 166, ${(1 - wp) * 0.04})`;
+        ctx.lineWidth = 0.6;
         ctx.beginPath();
-        ctx.arc(cx, cy, wp * R * 0.5, 0, Math.PI * 2);
+        ctx.arc(cx, cy, wp * R * 0.55, 0, Math.PI * 2);
         ctx.stroke();
       }
 
-      for (const orb of orbiters) {
-        orb.angle += orb.speed;
-        const x = cx + Math.cos(orb.angle) * orb.radius;
-        const y = cy + Math.sin(orb.angle) * orb.radius;
-
-        ctx.strokeStyle = 'rgba(20, 184, 166, 0.05)';
-        ctx.lineWidth = 0.4;
+      const numOrbiters = isMobile ? 3 : 5;
+      for (let o = 0; o < numOrbiters; o++) {
+        const angle = (now / 4000) * (o % 2 === 0 ? 1 : -1) + (o / numOrbiters) * Math.PI * 2;
+        const radius = R * (0.35 + Math.sin(now / 2000 + o) * 0.15);
+        const x = cx + Math.cos(angle) * radius;
+        const y = cy + Math.sin(angle) * radius;
+        ctx.fillStyle = `rgba(20, 184, 166, ${0.25 + 0.15 * Math.sin(now / 800 + o)})`;
+        ctx.beginPath();
+        ctx.arc(x, y, 1.2 + 0.5 * Math.sin(now / 600 + o), 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(20, 184, 166, 0.04)';
+        ctx.lineWidth = 0.3;
         ctx.beginPath();
         ctx.moveTo(cx, cy);
         ctx.lineTo(x, y);
         ctx.stroke();
-
-        ctx.fillStyle = 'rgba(20, 184, 166, 0.45)';
-        ctx.beginPath();
-        ctx.arc(x, y, orb.size, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.fillStyle = 'rgba(20, 184, 166, 0.08)';
-        ctx.beginPath();
-        ctx.arc(x, y, orb.size * 3, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      for (const p of particles) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > size) p.vx *= -1;
-        if (p.y < 0 || p.y > size) p.vy *= -1;
-        ctx.fillStyle = `rgba(20, 184, 166, ${p.a})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
       }
 
       animId = requestAnimationFrame(draw);
     }
 
     draw();
+  }
 
-    const stopObserver = new IntersectionObserver(function(entries) {
-      for (var e of entries) {
-        if (!e.isIntersecting && animId) {
-          cancelAnimationFrame(animId);
-          animId = 0;
-        } else if (e.isIntersecting && !animId) {
-          draw();
-        }
+  const observer = new IntersectionObserver(function(entries) {
+    for (var e of entries) {
+      if (!e.isIntersecting && animId) {
+        cancelAnimationFrame(animId);
+        animId = 0;
+      } else if (e.isIntersecting && !animId) {
+        initReactor();
       }
-    }, { threshold: 0 });
-    stopObserver.observe(canvas);
-  }
+    }
+  }, { threshold: 0 });
+  observer.observe(canvas);
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() { requestAnimationFrame(initCanvas); });
-  } else {
-    requestAnimationFrame(initCanvas);
-  }
+  var resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function() {
+      if (animId) {
+        cancelAnimationFrame(animId);
+        animId = 0;
+      }
+      initReactor();
+    }, 200);
+  });
 })();
 </script>

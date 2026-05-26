@@ -73,22 +73,22 @@ export const projects: Project[] = [
 
 export const skills = {
   languages: [
-    { name: 'Python', icon: 'python', percent: 0 },
-    { name: 'TypeScript', icon: 'typescript', percent: 0 },
-    { name: 'C++', icon: 'cplusplus', percent: 0 },
-    { name: 'SQL', icon: 'database', percent: 0 },
+    { name: 'Python', icon: 'python', percent: 0, level: 'expert', years: 5, projectRefs: ['metadata-analyzer', 'pos-system', 'autonomous-racecar', 'mario-kart', 'weather-man'] },
+    { name: 'TypeScript', icon: 'typescript', percent: 0, level: 'proficient', years: 2, projectRefs: ['starbattle'] },
+    { name: 'C++', icon: 'cplusplus', percent: 0, level: 'proficient', years: 3, projectRefs: ['mario-kart', 'weather-man'] },
+    { name: 'SQL', icon: 'database', percent: 0, level: 'proficient', years: 3, projectRefs: ['metadata-analyzer', 'pos-system', 'mario-kart'] },
   ],
   tools: [
-    { name: 'ROS', icon: 'robot', percent: 0 },
-    { name: 'Git', icon: 'git', percent: 0 },
-    { name: 'Linux', icon: 'terminal', percent: 0 },
-    { name: 'Docker', icon: 'container', percent: 0 },
+    { name: 'ROS', icon: 'robot', percent: 0, level: 'proficient', years: 2, projectRefs: ['autonomous-racecar'] },
+    { name: 'Git', icon: 'git', percent: 0, level: 'expert', years: 5, projectRefs: [] },
+    { name: 'Linux', icon: 'terminal', percent: 0, level: 'proficient', years: 4, projectRefs: [] },
+    { name: 'Docker', icon: 'container', percent: 0, level: 'familiar', years: 1, projectRefs: [] },
   ],
   hardware: [
-    { name: 'ESP32', icon: 'chip', percent: 0 },
-    { name: 'Embedded Systems', icon: 'cpu', percent: 0 },
-    { name: 'IoT', icon: 'wifi', percent: 0 },
-    { name: 'Computer Vision', icon: 'eye', percent: 0 },
+    { name: 'ESP32', icon: 'chip', percent: 0, level: 'proficient', years: 2, projectRefs: ['mario-kart', 'weather-man'] },
+    { name: 'Embedded Systems', icon: 'cpu', percent: 0, level: 'proficient', years: 3, projectRefs: ['mario-kart', 'weather-man'] },
+    { name: 'IoT', icon: 'wifi', percent: 0, level: 'familiar', years: 1, projectRefs: ['weather-man'] },
+    { name: 'Computer Vision', icon: 'eye', percent: 0, level: 'familiar', years: 1, projectRefs: ['autonomous-racecar'] },
   ],
 };
 

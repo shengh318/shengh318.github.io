@@ -63,17 +63,36 @@
     { text: 'FIELD: Computer Systems', cls: 'term-data' },
     { text: 'ROLE: Graduate Student', cls: 'term-data' },
     { text: 'INTERESTS: Software Engineering, Systems Design, AI/ML', cls: 'term-data' },
-    { text: 'STATUS: ACTIVE', cls: 'term-status' },
+    { text: 'SIGNAL: STABLE', cls: 'term-status' },
   ];
 
   var cursorLine = document.getElementById('term-cursor-line');
   var perCursors = el.querySelectorAll('.term-cursor');
 
-  setTimeout(function() {
-    perCursors.forEach(function(el) { el.style.display = 'none'; });
-    if (cursorLine) cursorLine.style.visibility = 'hidden';
-    typeLine(0);
-  }, 500);
+  var typingStarted = false;
+  var typingTimer = null;
+
+  function clearTimer() {
+    if (typingTimer) { clearTimeout(typingTimer); typingTimer = null; }
+  }
+
+  var typeObs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      if (!typingStarted) {
+        typingStarted = true;
+        perCursors.forEach(function(el) { el.style.display = 'none'; });
+        if (cursorLine) cursorLine.style.visibility = 'hidden';
+        typeLine(0);
+      }
+    } else {
+      if (typingStarted) {
+        clearTimer();
+        resetLines();
+        typingStarted = false;
+      }
+    }
+  }, { rootMargin: '-35% 0px -35% 0px', threshold: 0 });
+  typeObs.observe(el);
 
   function showCursor(n) {
     perCursors.forEach(function(el) { el.style.display = 'none'; });
@@ -82,6 +101,7 @@
   }
 
   function typeLine(i) {
+    if (!typingStarted) return;
     if (i >= lines.length) {
       perCursors.forEach(function(el) { el.style.display = 'none'; });
       if (cursorLine) {
@@ -96,13 +116,14 @@
     var c = 0;
     showCursor(i);
     function tick() {
+      if (!typingStarted) return;
       if (c < text.length) {
         target.textContent += text[c++];
-        setTimeout(tick, 35);
+        typingTimer = setTimeout(tick, 35);
       } else {
         var cEl = el.querySelector('.term-cursor-' + i);
         if (cEl) cEl.style.display = 'none';
-        setTimeout(function() { typeLine(i + 1); }, 250);
+        typingTimer = setTimeout(function() { typeLine(i + 1); }, 250);
       }
     }
     tick();
