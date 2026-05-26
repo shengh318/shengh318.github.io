@@ -310,50 +310,285 @@ body {
   100% { left: 100%; }
 }
 
-/* ---- Skill Badges ---- */
-.skill-badge {
-  display: inline-flex;
+/* ---- Skill Dashboard (Holographic HUD) ---- */
+.skills-dashboard {
+  display: flex;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+
+@media (max-width: 767px) {
+  .skills-dashboard {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* ---- HUD Core (Canvas + Status) ---- */
+.hud-core {
+  position: relative;
+  flex-shrink: 0;
+  width: 320px;
+  height: 320px;
+  display: flex;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.3rem 0.75rem;
-  font-size: 0.8125rem;
-  color: var(--color-text-secondary);
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .hud-core {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 1rem;
+  }
+}
+
+.skills-canvas {
+  display: block;
+  border-radius: 50%;
+  position: relative;
+  z-index: 1;
+}
+
+.hud-core-borders {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hud-core-borders::before,
+.hud-core-borders::after {
+  content: '';
+  position: absolute;
+}
+
+.hud-core-borders::before {
+  top: 4px;
+  left: 4px;
+  width: 22px;
+  height: 22px;
+  border-top: 1.5px solid rgba(20, 184, 166, 0.4);
+  border-left: 1.5px solid rgba(20, 184, 166, 0.4);
+}
+
+.hud-core-borders::after {
+  bottom: 4px;
+  right: 4px;
+  width: 22px;
+  height: 22px;
+  border-bottom: 1.5px solid rgba(20, 184, 166, 0.4);
+  border-right: 1.5px solid rgba(20, 184, 166, 0.4);
+}
+
+.hud-core-status {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  color: rgba(20, 184, 166, 0.3);
+  text-shadow: 0 0 8px rgba(20, 184, 166, 0.15);
+  white-space: nowrap;
+}
+
+/* ---- Holographic Data Panels ---- */
+.skills-panels {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.holo-panel {
+  position: relative;
+  background: rgba(8, 22, 20, 0.45);
   border: 1px solid rgba(20, 184, 166, 0.12);
-  border-radius: 100px;
-  transition: border-color 0.2s, color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.2s;
-  opacity: 0;
-  transform: scale(0.88);
-  animation: skillPopIn 0.4s ease-out forwards;
-  animation-delay: calc(var(--i, 0) * 0.05s);
+  border-radius: 6px;
+  padding: 1rem 1.25rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.skill-badge:hover {
-  border-color: rgba(20, 184, 166, 0.4);
-  color: var(--color-text-primary);
-  background: rgba(20, 184, 166, 0.06);
-  box-shadow: 0 0 12px rgba(20, 184, 166, 0.08);
-  transform: scale(1.05);
+.holo-panel > * {
+  position: relative;
+  z-index: 1;
 }
 
-@keyframes skillPopIn {
-  to { opacity: 1; transform: scale(1); }
+.holo-panel:hover {
+  border-color: rgba(20, 184, 166, 0.3);
+  box-shadow: 0 0 30px rgba(20, 184, 166, 0.04), inset 0 0 20px rgba(20, 184, 166, 0.02);
 }
 
-.skill-category-label {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  font-family: 'Inter', monospace;
-  letter-spacing: 0.05em;
+/* Corner brackets for each panel */
+.holo-panel::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 14px;
+  height: 14px;
+  border-top: 1.5px solid rgba(20, 184, 166, 0.18);
+  border-right: 1.5px solid rgba(20, 184, 166, 0.18);
+  pointer-events: none;
+}
+
+.holo-panel::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  width: 14px;
+  height: 14px;
+  border-bottom: 1.5px solid rgba(20, 184, 166, 0.18);
+  border-left: 1.5px solid rgba(20, 184, 166, 0.18);
+  pointer-events: none;
+}
+
+.holo-panel-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(20, 184, 166, 0.08);
 }
 
-.skill-category-label::before {
-  content: '';
+.holo-panel-tag {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.6rem;
+  color: rgba(20, 184, 166, 0.5);
+  letter-spacing: 0.08em;
+}
+
+.holo-panel-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: 0.01em;
+}
+
+.holo-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+/* ---- Skill Entry ---- */
+.skill-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  cursor: default;
+  transition: background 0.2s, box-shadow 0.2s;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out, background 0.2s, box-shadow 0.2s;
+  transition-delay: calc(var(--idx, 0) * 0.06s);
+}
+
+.reveal-stagger.visible .skill-entry {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.skill-entry:hover {
+  background: rgba(20, 184, 166, 0.05);
+  box-shadow: 0 0 16px rgba(20, 184, 166, 0.04);
+}
+
+.skill-icon {
+  display: block;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: rgba(20, 184, 166, 0.6);
+  transition: color 0.2s;
+}
+
+.skill-entry:hover .skill-icon {
+  color: rgba(20, 184, 166, 0.9);
+}
+
+.skill-name {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  min-width: 7rem;
+  transition: color 0.2s;
+}
+
+@media (max-width: 420px) {
+  .skill-name {
+    min-width: 5rem;
+    font-size: 0.75rem;
+  }
+}
+
+.skill-entry:hover .skill-name {
+  color: var(--color-text-primary);
+}
+
+/* ---- Skill Energy Meter ---- */
+.skill-meter {
   flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(20, 184, 166, 0.2), transparent);
+  height: 3px;
+  background: rgba(20, 184, 166, 0.06);
+  border-radius: 2px;
+  overflow: hidden;
+  max-width: 100px;
+  min-width: 40px;
+  position: relative;
+}
+
+.skill-meter-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, rgba(20, 184, 166, 0.3), #14b8a6, rgba(20, 184, 166, 0.5));
+  border-radius: 2px;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(0.35s + var(--idx, 0) * 0.06s);
+  position: relative;
+}
+
+.skill-meter-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 6px;
+  height: 100%;
+  background: rgba(20, 184, 166, 0.4);
+  filter: blur(3px);
+}
+
+.skill-entry:hover .skill-meter-fill {
+  box-shadow: 0 0 6px rgba(20, 184, 166, 0.15);
+}
+
+.reveal-stagger.visible .skill-meter-fill {
+  width: calc(var(--pct, 0) * 1%);
+}
+
+.skill-pct {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.6rem;
+  color: rgba(20, 184, 166, 0.35);
+  width: 2.5rem;
+  text-align: right;
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+
+.skill-entry:hover .skill-pct {
+  color: rgba(20, 184, 166, 0.6);
 }
 
 .skill-icon {
@@ -748,20 +983,6 @@ body {
   animation-delay: calc(var(--d, 0) * 0.4s);
 }
 
-/* ---- HUD Arc Reactor (Skills) ---- */
-.hud-arc-svg {
-  position: absolute;
-  top: 1.5rem;
-  right: 1rem;
-  width: 100px;
-  height: 100px;
-}
-.hud-arc-ring1 { transform-box: fill-box; transform-origin: center; animation: hudSpin 12s linear infinite; }
-.hud-arc-ring2 { transform-box: fill-box; transform-origin: center; animation: hudSpinRev 8s linear infinite; }
-.hud-arc-ring3 { transform-box: fill-box; transform-origin: center; animation: hudSpin 6s linear infinite; }
-.hud-arc-tri { transform-box: fill-box; transform-origin: center; animation: hudPop 3s ease-in-out infinite; }
-.hud-arc-dot { transform-box: fill-box; transform-origin: center; animation: hudPop 2s ease-in-out infinite; }
-
 /* ---- HUD Repulsor (Projects) ---- */
 .hud-rep-svg {
   position: absolute;
@@ -820,4 +1041,9 @@ body {
 @keyframes hudRingExpand {
   0% { opacity: 0.8; transform: scale(1); }
   100% { opacity: 0; transform: scale(3); }
+}
+
+@keyframes holoScanLine {
+  0% { top: -100%; }
+  100% { top: 100%; }
 }

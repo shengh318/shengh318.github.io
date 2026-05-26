@@ -73,22 +73,22 @@ export const projects: Project[] = [
 
 export const skills = {
   languages: [
-    { name: 'Python', icon: 'python' },
-    { name: 'TypeScript', icon: 'typescript' },
-    { name: 'C++', icon: 'cplusplus' },
-    { name: 'SQL', icon: 'database' },
+    { name: 'Python', icon: 'python', percent: 0 },
+    { name: 'TypeScript', icon: 'typescript', percent: 0 },
+    { name: 'C++', icon: 'cplusplus', percent: 0 },
+    { name: 'SQL', icon: 'database', percent: 0 },
   ],
   tools: [
-    { name: 'ROS', icon: 'robot' },
-    { name: 'Git', icon: 'git' },
-    { name: 'Linux', icon: 'terminal' },
-    { name: 'Docker', icon: 'container' },
+    { name: 'ROS', icon: 'robot', percent: 0 },
+    { name: 'Git', icon: 'git', percent: 0 },
+    { name: 'Linux', icon: 'terminal', percent: 0 },
+    { name: 'Docker', icon: 'container', percent: 0 },
   ],
   hardware: [
-    { name: 'ESP32', icon: 'chip' },
-    { name: 'Embedded Systems', icon: 'cpu' },
-    { name: 'IoT', icon: 'wifi' },
-    { name: 'Computer Vision', icon: 'eye' },
+    { name: 'ESP32', icon: 'chip', percent: 0 },
+    { name: 'Embedded Systems', icon: 'cpu', percent: 0 },
+    { name: 'IoT', icon: 'wifi', percent: 0 },
+    { name: 'Computer Vision', icon: 'eye', percent: 0 },
   ],
 };
 
