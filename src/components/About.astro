@@ -1,40 +1,128 @@
-<section id="about" class="py-24 md:py-32 px-6 md:px-[8%]">
+---
+import HudTerminal from './hud/HudTerminal.astro';
+---
+
+<section id="about" class="section-bg py-24 md:py-32 px-6 md:px-[8%]">
+  <div class="section-bg-glow" style="top: 20%; left: -10%;"></div>
   <div class="max-w-5xl mx-auto">
-    <div class="reveal">
-      <h2 class="text-xs uppercase tracking-widest text-text-muted/50 mb-8 font-mono">About</h2>
+    <div class="reveal section-content">
+      <div class="section-title">
+        <span class="section-title-text">About</span>
+        <span class="section-title-line"></span>
+      </div>
       <div class="grid md:grid-cols-5 gap-12">
         <div class="md:col-span-3">
-          <p class="text-base md:text-lg text-text-secondary leading-relaxed mb-6">
-            I'm a graduate student at MIT, focused on computer systems. My work spans research across departments, building software tools for data analysis, and teaching.
-          </p>
-          <p class="text-base md:text-lg text-text-secondary leading-relaxed mb-6">
-            I've designed and engineered research software, analyzed large-scale datasets, and guided students through coursework in the EECS department.
-          </p>
-          <p class="text-base md:text-lg text-text-secondary leading-relaxed">
-            I'm interested in software engineering, systems design, and building tools that solve real problems.
-          </p>
-        </div>
-        <div class="md:col-span-2 md:border-l md:border-border md:pl-12">
-          <div class="space-y-6">
-            <div>
-              <p class="text-xs text-text-muted font-mono mb-1">Education</p>
-              <p class="text-sm text-text-primary font-medium">MIT</p>
-              <p class="text-sm text-text-secondary">M.S. Computer Science</p>
-            </div>
-            <div>
-              <p class="text-xs text-text-muted font-mono mb-1">Location</p>
-              <p class="text-sm text-text-primary">Cambridge, MA</p>
-            </div>
-            <div>
-              <a
-                href="/resume.pdf"
-                download
-                class="text-sm font-medium text-accent hover:opacity-70 transition-opacity duration-200"
-              >
-                Download CV →
-              </a>
+          <div class="hud-terminal" id="term-bio">
+            <div class="hud-terminal-screen">
+              <span class="hud-corner hud-corner-tl"></span>
+              <span class="hud-corner hud-corner-tr"></span>
+              <span class="hud-corner hud-corner-bl"></span>
+              <span class="hud-corner hud-corner-br"></span>
+
+              <div class="hud-terminal-bar">
+                <span class="hud-terminal-dot"></span>
+                <span class="hud-terminal-title">BIO.SYS</span>
+              </div>
+
+              <div class="hud-terminal-body hud-terminal-body-bio">
+                <p class="hud-terminal-line term-data">
+                  I'm a graduate student at MIT, focused on computer systems. My work spans research across departments, building software tools for data analysis, and teaching.
+                </p>
+                <p class="hud-terminal-line hud-terminal-line-gap term-data">
+                  I've designed and engineered research software, analyzed large-scale datasets, and guided students through coursework in the EECS department.
+                </p>
+                <p class="hud-terminal-line hud-terminal-line-gap term-data">
+                  I'm interested in software engineering, systems design, and building tools that solve real problems.
+                </p>
+                <p class="hud-terminal-line hud-terminal-line-gap term-status">
+                  STATUS: ACTIVE
+                </p>
+                <p class="hud-terminal-line" id="bio-cursor-line">
+                  <span class="hud-terminal-cursor">&#9608;</span>
+                </p>
+              </div>
+
+              <div class="hud-terminal-footer">
+                <span class="hud-terminal-footer-dot"></span>
+                <span>SYS: OK</span>
+              </div>
             </div>
           </div>
+          <script>
+(function() {
+  var cursorLine = document.getElementById('bio-cursor-line');
+  if (!cursorLine) return;
+  cursorLine.style.visibility = 'hidden';
+  var section = document.getElementById('about');
+  if (!section) return;
+  var obs = new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) {
+      cursorLine.style.visibility = 'visible';
+      cursorLine.style.opacity = '1';
+    } else {
+      cursorLine.style.visibility = 'hidden';
+      cursorLine.style.opacity = '0';
+    }
+  }, { threshold: 0.3 });
+  obs.observe(section);
+})();
+</script>
+        </div>
+        <div class="md:col-span-2">
+          <HudTerminal />
+          <div class="mt-4">
+            <a href="/resume.pdf" download id="download-btn" class="download-btn">
+              <div class="download-btn-screen">
+                <div class="download-btn-bar">
+                  <span class="download-btn-dot"></span>
+                  <span class="download-btn-title">CV.DOWNLOAD</span>
+                </div>
+                <div class="download-btn-body">
+                  <span class="download-prompt">$</span>
+                  <span class="download-cmd">wget resume.pdf</span>
+                  <span class="download-bar">
+                    <span class="download-bar-bg">&#9617;&#9617;&#9617;&#9617;&#9617;&#9617;&#9617;&#9617;&#9617;&#9617;</span>
+                    <span class="download-bar-fill" id="dl-fill">&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;&#9608;</span>
+                  </span>
+                  <span class="download-status" id="dl-label">DOWNLOAD</span>
+                  <span class="download-cursor" id="dl-cursor">&#9608;</span>
+                </div>
+              </div>
+            </a>
+          </div>
+          <script>
+(function() {
+  var btn = document.getElementById('download-btn');
+  if (!btn) return;
+  btn.addEventListener('click', function(e) {
+    e.preventDefault();
+    var href = this.getAttribute('href');
+    var fill = document.getElementById('dl-fill');
+    var label = document.getElementById('dl-label');
+    var cursor = document.getElementById('dl-cursor');
+    fill.style.transition = 'width 1.5s ease';
+    fill.style.width = '100%';
+    setTimeout(function() {
+      label.textContent = 'DONE';
+      if (cursor) cursor.style.animation = 'none';
+      var link = document.createElement('a');
+      link.href = href;
+      link.download = '';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }, 1600);
+  });
+})();
+</script>
+          <style>
+  .download-btn-screen { background: #0d1f1c; border: 1px solid rgba(20,184,166,0.3); border-radius: 8px; overflow: hidden; box-shadow: 0 0 12px rgba(20,184,166,0.08); }
+  .download-btn-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.75rem; border-bottom: 1px solid rgba(20,184,166,0.12); background: linear-gradient(90deg, #051212, #0f2a24); }
+  .download-btn-dot { width: 5px; height: 5px; border-radius: 50%; background: #14b8a6; box-shadow: 0 0 6px rgba(20,184,166,0.6); }
+  .download-btn-title { font-family: 'Courier New', Courier, monospace; font-size: 0.55rem; color: rgba(20,184,166,0.7); text-shadow: 0 0 8px rgba(20,184,166,0.3); }
+  .download-btn-body { padding: 0.55rem 0.75rem; font-family: 'Courier New', Courier, monospace; font-size: 0.65rem; line-height: 1; color: #e2e8f0; }
+  .download-btn { display: inline-block; width: 100%; text-decoration: none; }
+</style>
         </div>
       </div>
     </div>

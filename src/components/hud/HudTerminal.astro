@@ -1,0 +1,123 @@
+<div class="hud-terminal" id="term-profile">
+  <div class="hud-terminal-screen">
+    <span class="hud-corner hud-corner-tl"></span>
+    <span class="hud-corner hud-corner-tr"></span>
+    <span class="hud-corner hud-corner-bl"></span>
+    <span class="hud-corner hud-corner-br"></span>
+
+    <div class="hud-terminal-bar">
+      <span class="hud-terminal-dot"></span>
+      <span class="hud-terminal-title">ABOUT.EXE</span>
+    </div>
+
+    <div class="hud-terminal-body">
+      <p class="hud-terminal-line">
+        <span class="term-msg" id="term-0"></span>
+        <span class="hud-terminal-cursor term-cursor term-cursor-0">&#9608;</span>
+      </p>
+      <p class="hud-terminal-line">
+        <span class="term-data" id="term-1"></span>
+        <span class="hud-terminal-cursor term-cursor term-cursor-1">&#9608;</span>
+      </p>
+      <p class="hud-terminal-line">
+        <span class="term-data" id="term-2"></span>
+        <span class="hud-terminal-cursor term-cursor term-cursor-2">&#9608;</span>
+      </p>
+      <p class="hud-terminal-line">
+        <span class="term-data" id="term-3"></span>
+        <span class="hud-terminal-cursor term-cursor term-cursor-3">&#9608;</span>
+      </p>
+      <p class="hud-terminal-line">
+        <span class="term-data" id="term-4"></span>
+        <span class="hud-terminal-cursor term-cursor term-cursor-4">&#9608;</span>
+      </p>
+      <p class="hud-terminal-line">
+        <span class="term-data" id="term-5"></span>
+        <span class="hud-terminal-cursor term-cursor term-cursor-5">&#9608;</span>
+      </p>
+      <p class="hud-terminal-line">
+        <span class="term-status" id="term-6"></span>
+        <span class="hud-terminal-cursor term-cursor term-cursor-6">&#9608;</span>
+      </p>
+      <p class="hud-terminal-line" id="term-cursor-line">
+        <span class="hud-terminal-cursor">&#9608;</span>
+      </p>
+    </div>
+
+    <div class="hud-terminal-footer">
+      <span class="hud-terminal-footer-dot"></span>
+      <span>SYS: OK</span>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var el = document.getElementById('term-profile');
+  if (!el) return;
+
+  var lines = [
+    { text: 'INITIALIZING PROFILE...', cls: 'term-msg' },
+    { text: 'AFFILIATION: MIT', cls: 'term-data' },
+    { text: 'LOCATION: 42.36\u00b0N, 71.06\u00b0W (Cambridge, MA)', cls: 'term-data' },
+    { text: 'FIELD: Computer Systems', cls: 'term-data' },
+    { text: 'ROLE: Graduate Student', cls: 'term-data' },
+    { text: 'INTERESTS: Software Engineering, Systems Design, AI/ML', cls: 'term-data' },
+    { text: 'STATUS: ACTIVE', cls: 'term-status' },
+  ];
+
+  var cursorLine = document.getElementById('term-cursor-line');
+  var perCursors = el.querySelectorAll('.term-cursor');
+
+  setTimeout(function() {
+    perCursors.forEach(function(el) { el.style.display = 'none'; });
+    if (cursorLine) cursorLine.style.visibility = 'hidden';
+    typeLine(0);
+  }, 500);
+
+  function showCursor(n) {
+    perCursors.forEach(function(el) { el.style.display = 'none'; });
+    var c = el.querySelector('.term-cursor-' + n);
+    if (c) c.style.display = 'inline';
+  }
+
+  function typeLine(i) {
+    if (i >= lines.length) {
+      perCursors.forEach(function(el) { el.style.display = 'none'; });
+      if (cursorLine) {
+        cursorLine.style.visibility = 'visible';
+        cursorLine.style.opacity = '1';
+      }
+      return;
+    }
+    var target = document.getElementById('term-' + i);
+    if (!target) return;
+    var text = lines[i].text;
+    var c = 0;
+    showCursor(i);
+    function tick() {
+      if (c < text.length) {
+        target.textContent += text[c++];
+        setTimeout(tick, 35);
+      } else {
+        var cEl = el.querySelector('.term-cursor-' + i);
+        if (cEl) cEl.style.display = 'none';
+        setTimeout(function() { typeLine(i + 1); }, 250);
+      }
+    }
+    tick();
+  }
+
+  function resetLines() {
+    for (var i = 0; i < lines.length; i++) {
+      var t = document.getElementById('term-' + i);
+      if (t) t.textContent = '';
+    }
+    perCursors.forEach(function(el) { el.style.display = 'none'; });
+    if (cursorLine) {
+      cursorLine.style.visibility = 'hidden';
+      cursorLine.style.opacity = '0';
+    }
+  }
+})();
+</script>
