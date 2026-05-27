@@ -9,7 +9,7 @@ import HudRepulsor from './hud/HudRepulsor.astro';
   <div class="max-w-5xl mx-auto">
     <div class="reveal section-content">
       <div class="section-title">
-        <span class="section-title-text">_PROJECTS</span>
+        <span class="section-title-text">Projects</span>
         <span class="section-title-line"></span>
       </div>
 
@@ -63,6 +63,17 @@ import HudRepulsor from './hud/HudRepulsor.astro';
                     </div>
                   ))}
                 </div>
+                {project.url && (
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-1.5 mt-4 text-xs font-mono text-accent hover:text-accent/80 transition-colors relative z-10"
+                  >
+                    <span class="text-accent">&#9656;</span>
+                    VIEW PUBLICATION
+                  </a>
+                )}
               </div>
             </div>
           );

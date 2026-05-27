@@ -8,7 +8,7 @@ import { experience } from '../data/projects';
   <div class="max-w-5xl mx-auto relative z-10">
     <div class="reveal section-content">
       <div class="section-title">
-        <span class="section-title-text">_EXPERIENCE</span>
+        <span class="section-title-text">Experience</span>
         <span class="section-title-line"></span>
         <span class="exp-tracker">[TRACKING {experience.length} MISSIONS]</span>
       </div>
@@ -48,6 +48,11 @@ import { experience } from '../data/projects';
                       <li>{desc}</li>
                     ))}
                   </ul>
+                  {exp.skills && (
+                    <div class="flex flex-wrap gap-1.5 mt-3">
+                      {exp.skills.map(s => <span class="tech-chip text-[0.6rem]">{s}</span>)}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -189,11 +194,13 @@ import { experience } from '../data/projects';
 
   .exp-period {
     font-family: 'Courier New', Courier, monospace;
-    font-size: 0.55rem;
-    color: rgba(20, 184, 166, 0.3);
-    letter-spacing: 0.05em;
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: rgba(20, 184, 166, 0.7);
+    letter-spacing: 0.08em;
     flex-shrink: 0;
     white-space: nowrap;
+    text-shadow: 0 0 8px rgba(20, 184, 166, 0.2);
   }
 
   .exp-card {
@@ -294,19 +301,22 @@ import { experience } from '../data/projects';
   .exp-status {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
+    gap: 0.4rem;
     font-family: 'Courier New', Courier, monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.06em;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     margin-bottom: 0.75rem;
   }
 
   .exp-status.active {
-    color: rgba(20, 184, 166, 0.8);
+    color: #22c55e;
+    text-shadow: 0 0 10px rgba(34, 197, 94, 0.35);
   }
 
   .exp-status.completed {
-    color: rgba(20, 184, 166, 0.4);
+    color: rgba(20, 184, 166, 0.7);
+    text-shadow: 0 0 8px rgba(20, 184, 166, 0.2);
   }
 
   .exp-status-dot {

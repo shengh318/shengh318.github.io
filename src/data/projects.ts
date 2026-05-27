@@ -7,6 +7,7 @@ export interface Project {
   status: 'PRODUCTION' | 'ACTIVE' | 'BETA' | 'ARCHIVED';
   role: 'Solo' | 'Lead' | 'Team';
   highlights: string[];
+  url?: string;
 }
 
 export const projects: Project[] = [
@@ -114,6 +115,28 @@ export const projects: Project[] = [
       { label: 'C++', percent: 70 },
     ],
   },
+  {
+    id: 'ai-tutoring-system',
+    icon: 'graduation-cap',
+    name: 'AI-Driven Personalized Tutoring System',
+    description: 'Designed and implemented an adaptive AI tutoring system for MIT coursework, featuring a real-time Skill Tree model and feedback-driven personalization framework. Published paper available on MIT DSpace.',
+    status: 'PRODUCTION',
+    role: 'Lead',
+    highlights: [
+      'Reduced office-hour queue load with adaptive AI tutoring',
+      'Real-time Skill Tree model inferring student mastery from interaction patterns',
+      'Feedback-driven personalization improving targeted instructional delivery',
+      'Validated against baseline with measurable student outcome improvements',
+    ],
+    skills: [
+      { label: 'Python', percent: 80 },
+      { label: 'FastAPI', percent: 60 },
+      { label: 'React', percent: 50 },
+      { label: 'AI LLM', percent: 70 },
+      { label: 'PostgreSQL', percent: 40 },
+    ],
+    url: 'https://dspace.mit.edu/entities/publication/09818b7e-7d3b-4a51-b5bf-79920f642ece',
+  },
 ];
 
 export const skills = {
@@ -137,40 +160,86 @@ export const skills = {
   ],
 };
 
+export const education: {
+  degree: string;
+  school: string;
+  period: string;
+  gpa: string;
+  url?: string;
+}[] = [
+  {
+    degree: 'Master of Engineering (MEng)',
+    school: 'Massachusetts Institute of Technology',
+    period: 'Jun 2024 – May 2025',
+    gpa: '5.0 / 5.0',
+    url: 'https://dspace.mit.edu/entities/publication/09818b7e-7d3b-4a51-b5bf-79920f642ece',
+  },
+  {
+    degree: 'Bachelor of Science in Engineering',
+    school: 'Massachusetts Institute of Technology',
+    period: 'Sep 2020 – May 2024',
+    gpa: '4.7 / 5.0',
+  },
+];
+
 export const experience: {
   role: string;
   company: string;
   period: string;
   description: string[];
+  skills: string[];
 }[] = [
   {
-    role: 'Software Engineering Intern',
-    company: 'Your Company Name',
-    period: 'Summer 2025',
+    role: 'Software Engineer',
+    company: 'Capital One',
+    period: 'Aug 2025 – Present',
     description: [
-      'Led development of key feature impacting X users',
-      'Improved system performance by Y% through optimization',
-      'Collaborated cross-functionally with design and product teams',
+      'Developed and maintained backend services that support third-party integrations for vendor payments.',
     ],
+    skills: ['Go', 'TypeScript', 'Python', 'FastAPI', 'AI LLM', 'PostgreSQL'],
   },
   {
-    role: 'Research Assistant',
-    company: 'MIT Computer Science & AI Lab',
-    period: 'Fall 2024 – Present',
+    role: 'AI Software Developer',
+    company: 'MIT',
+    period: 'Sep 2024 – Jun 2025',
     description: [
-      'Conducted research in computer systems and performance analysis',
-      'Developed research software for data collection and analysis',
-      'Published findings at [Conference Name]',
+      'Designed and implemented a personalized AI tutoring system that adapts responses to individual students based on their interaction patterns, reducing office-hour queue load.',
+      'Developed a dynamic Skill Tree model that updates in real time from student behavior, providing LLMs with structured context to infer student mastery and knowledge gaps.',
+      'Engineered pipelines to analyze student-AI interactions and retrain the AI tutor, enabling more accurate and tailored explanations over time.',
+      'Created a feedback-driven personalization framework that improved the tutor\'s ability to deliver targeted instructional content and support.',
+      'Collaborated with instructors and researchers to validate system effectiveness against a baseline model, demonstrating measurable improvements in student learning outcomes.',
     ],
+    skills: ['Python', 'Vite', 'React', 'FastAPI', 'AI LLM', 'PostgreSQL'],
   },
   {
-    role: 'Teaching Assistant',
-    company: 'MIT Department of EECS',
-    period: 'Spring 2024',
+    role: 'Software Engineer Intern',
+    company: 'Capital One',
+    period: 'Jun 2024 – Aug 2024',
     description: [
-      'TA for [Course Name], guiding 50+ students through coursework',
-      'Held office hours and led recitation sections',
-      'Developed course materials and grading rubrics',
+      'Developing an internal standalone messaging / logging application using React.js, TypeScript, and PostgreSQL.',
     ],
+    skills: ['React', 'TypeScript', 'Prisma', 'PostgreSQL'],
+  },
+  {
+    role: 'Software Developer',
+    company: 'MIT',
+    period: 'Jan 2024 – Jun 2024',
+    description: [
+      'Boosted data storage efficiency by 30% using SQL.',
+      'Designed API architecture, streamlining feature implementation through a clear roadmap.',
+      'Automated context retrieval for the model by implementing a RAG parser.',
+    ],
+    skills: ['SQL', 'Python', 'Java'],
+  },
+  {
+    role: 'Software Engineer',
+    company: 'Capital One',
+    period: 'Jun 2023 – Aug 2023',
+    description: [
+      'Developed an API that dynamically generates custom files for the backend UI, resulting in a dynamic webpage.',
+      'Implemented an additional layer of input validation during development, leading to enhanced security.',
+      'Established foundational classes for backend, enabling faster code development and deployment by other teammates.',
+    ],
+    skills: ['Java', 'Springboot', 'Python'],
   },
 ];
