@@ -8,36 +8,94 @@ import HudComm from './hud/HudComm.astro';
   <div class="max-w-5xl mx-auto">
     <div class="reveal section-content">
       <div class="section-title">
-        <span class="section-title-text">Contact</span>
+        <span class="section-title-text">_CONTACT</span>
         <span class="section-title-line"></span>
       </div>
-      <div class="glass-card max-w-xl">
-        <p class="text-lg text-text-secondary leading-relaxed mb-8">
-          I'm always open to interesting conversations and opportunities.
-        </p>
-        <div class="flex flex-col gap-4">
+
+      <div class="contact-frame">
+        <div class="contact-corner contact-corner-tl"></div>
+        <div class="contact-corner contact-corner-tr"></div>
+        <div class="contact-corner contact-corner-bl"></div>
+        <div class="contact-corner contact-corner-br"></div>
+        <div class="contact-scanline"></div>
+
+        <div class="contact-top-bar">
+          <span class="contact-top-title">COMMS TERMINAL v2.4</span>
+          <span class="contact-top-sep">|</span>
+          <span class="contact-top-indicator">
+            <span class="contact-top-dot"></span>
+            <span>SYS: ONLINE</span>
+          </span>
+          <span class="contact-top-sep">|</span>
+          <span class="contact-top-label">SECURE CHANNEL</span>
+          <span class="contact-top-fill"></span>
+        </div>
+
+        <div class="contact-channels">
           <a
             href="https://linkedin.com/in/your-username"
             target="_blank"
             rel="noopener noreferrer"
-            class="contact-link"
+            class="contact-channel"
           >
-            LinkedIn<span class="cursor-blink"></span>
+            <span class="contact-ch-id">[CH-01]</span>
+            <span class="contact-signal">
+              <span class="sig-bar" style="--i: 0; height: 8px"></span>
+              <span class="sig-bar" style="--i: 1; height: 12px"></span>
+              <span class="sig-bar" style="--i: 2; height: 16px"></span>
+              <span class="sig-bar" style="--i: 3; height: 10px"></span>
+            </span>
+            <span class="contact-ch-name">LinkedIn</span>
+            <span class="contact-ch-gap"></span>
+            <span class="contact-ch-action">&gt; OPEN</span>
           </a>
-          <a
-            href="mailto:shengh@mit.edu"
-            class="contact-link"
-          >
-            shengh@mit.edu<span class="cursor-blink"></span>
+
+          <a href="mailto:shengh@mit.edu" class="contact-channel">
+            <span class="contact-ch-id">[CH-02]</span>
+            <span class="contact-signal">
+              <span class="sig-bar" style="--i: 0; height: 12px"></span>
+              <span class="sig-bar" style="--i: 1; height: 8px"></span>
+              <span class="sig-bar" style="--i: 2; height: 14px"></span>
+              <span class="sig-bar" style="--i: 3; height: 18px"></span>
+            </span>
+            <span class="contact-ch-name">shengh@mit.edu</span>
+            <span class="contact-ch-gap"></span>
+            <span class="contact-ch-action">&gt; SEND</span>
           </a>
-          <a
-            href="/resume.pdf"
-            download
-            class="contact-link"
-            style="color: rgba(20, 184, 166, 0.8);"
-          >
-            download resume.pdf<span class="cursor-blink"></span>
+
+          <a href="/resume.pdf" download class="contact-channel">
+            <span class="contact-ch-id">[CH-03]</span>
+            <span class="contact-signal">
+              <span class="sig-bar" style="--i: 0; height: 14px"></span>
+              <span class="sig-bar" style="--i: 1; height: 10px"></span>
+              <span class="sig-bar" style="--i: 2; height: 8px"></span>
+              <span class="sig-bar" style="--i: 3; height: 12px"></span>
+            </span>
+            <span class="contact-ch-name">Resume Download</span>
+            <span class="contact-ch-gap"></span>
+            <span class="contact-ch-action contact-ch-action-accent">&gt; GET</span>
           </a>
+        </div>
+
+        <div class="contact-divider"></div>
+
+        <div class="contact-prompt">
+          <span class="contact-prompt-prefix">&gt;_</span>
+          <span class="contact-prompt-text">awaiting incoming message...&nbsp;</span>
+          <span class="contact-prompt-cursor">&#9608;</span>
+        </div>
+
+        <div class="contact-divider"></div>
+
+        <div class="contact-footer">
+          <div class="contact-avail">
+            <span class="contact-avail-dot"></span>
+            <span class="contact-avail-text">AVAILABLE &middot; Open to opportunities</span>
+          </div>
+          <div class="contact-response">
+            <span class="contact-response-dot"></span>
+            <span>Response: typically &lt; 24h</span>
+          </div>
         </div>
       </div>
     </div>

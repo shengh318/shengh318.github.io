@@ -28,8 +28,8 @@ src/
 │   ├── About.astro           # Terminal-style bio (BIO.SYS) + download-resume widget + HudTerminal
 │   ├── Experience.astro      # Timeline-style cards; uses HudDiagnostic
 │   ├── Skills.astro          # Holographic categories (Languages / Tools / Hardware) + canvas core
-│   ├── Projects.astro        # Cards with 3D tilt + sheen effects; uses HudRepulsor
-│   ├── Contact.astro         # Terminal-style contact links; uses HudComm
+│   ├── Projects.astro        # Holographic project cards: status badges, skill bars, highlights; uses HudRepulsor
+│   ├── Contact.astro         # HUD comms terminal with channel rows, signal bars, availability status; uses HudComm
 │   ├── Footer.astro          # Copyright + "Built with Astro" + SYS: ONLINE status
 │   └── hud/                  # Decorative SVG gadgets (positioned absolutely, non-interactive, z-0)
 │       ├── HudTerminal.astro     # Typewriter animation in About section
@@ -41,7 +41,7 @@ src/
 ├── scripts/
 │   └── main.js               # Client JS: custom cursor, nav scroll, reveal, mobile menu
 └── styles/
-    └── global.css            # Tailwind import + theme tokens + all custom CSS (~1050 lines)
+    └── global.css            # Tailwind import + theme tokens + all custom CSS (~1120 lines)
 public/
 ├── resume.pdf                # Deployable resume (built from Resume/ source)
 └── images/                   # Headshot / photo directory (currently empty)
@@ -63,7 +63,7 @@ REVAMP_PLAN.md                # Planned redesign (amber/gold theme, GSAP animati
 Header → Hero → About → Experience → Skills → Projects → Contact → Footer
 ```
 
-Each section is a self-contained `.astro` component with its own `<script>` tag for interactivity and optionally imports a HUD gadget for background decoration.
+Each section is a self-contained `.astro` component with its own `<script>` tag for interactivity and optionally imports a HUD gadget for background decoration. Section titles use `_` prefix convention (`_ABOUT`, `_EXPERIENCE`, `_SKILLS`, `_PROJECTS`, `_CONTACT`).
 
 ### Data layer (`src/data/projects.ts`)
 
@@ -71,7 +71,7 @@ All editable content lives in one file:
 
 | Export | Type | Description |
 |--------|------|-------------|
-| `projects` | `Project[]` | 6 project entries (id, icon name, description, skills[]) |
+| `projects` | `Project[]` | 6 project entries (id, icon, name, description, status, role, highlights, skills[]) |
 | `skills` | `{ languages, tools, hardware }` | Skill categories (name, icon, percent) |
 | `experience` | `{ role, company, period, description[] }[]` | 3 work history entries |
 
@@ -127,7 +127,8 @@ Four decorative SVG components (no standalone `HudArc.astro` — Skills uses inl
 - **Download resume** (About.astro): Terminal-style progress bar animation (1.5s fill) before triggering actual download via dynamically created `<a>` element.
 - **HudTerminal typewriter** (hud/HudTerminal.astro): Sequentially types 7 lines (affiliation, location, field, role, interests, status) at 35ms per character with cursor management.
 - **Bio cursor blink** (About.astro): IntersectionObserver toggles blinking cursor visibility when About section enters/leaves viewport.
-- **Project cards** (Projects.astro): 3D tilt on mousemove via `perspective(800px) rotateX/Y()` + radial sheen overlay that follows cursor position. Float animation with staggered delays. Disabled on touch devices.
+- **Project cards** (Projects.astro): 3D tilt on mousemove via `perspective(800px) rotateX/Y()` + radial sheen overlay that follows cursor position. Each card has HUD corner brackets, a color-coded status badge (`PRODUCTION`/`ACTIVE`/`BETA`) with pulsing dot, role tag (`[Solo]`), impact highlight bullets, and animated skill bars that fill on scroll reveal. A scan line sweeps across the card on hover. Cards are equal-height within each grid row.
+- **Contact comms terminal** (Contact.astro): HUD-frame interface styled as a communication console. Top status bar shows "COMMS TERMINAL v2.4 | SYS: ONLINE | SECURE CHANNEL". Three channel rows (`[CH-01]` through `[CH-03]`) with animated signal equalizer bars that activate on hover. Channel action labels (`OPEN`/`SEND`/`GET`) are dim by default and flash bright on row hover. Bottom terminal prompt blinks with a block cursor. Availability badge with green pulsing dot plus estimated response time.
 
 ## Development
 
@@ -152,7 +153,8 @@ npm run preview  # Preview production build locally
 | `HudArc.astro` | ❌ **Does not exist** — Skills section uses inline Canvas 2D instead |
 | Mobile hamburger menu | ❌ `initMobileMenu()` exists in `main.js` but no button in `Header.astro` |
 | `public/images/` | ❌ **Empty** — headshot photo placeholder for About section |
-| LinkedIn link | ⚠️ **Placeholder** — `your-username` needs real URL |
+| LinkedIn link | ⚠️ **Placeholder** — `your-username` needs real URL (in both Hero.astro and Contact.astro) |
+| Project highlight metrics | ⚠️ **Placeholders** — `highlights[]` in `projects.ts` are inferred from descriptions; replace with real impact numbers |
 | `REVAMP_PLAN.md` | 📝 Documented plan to switch to amber/gold theme with GSAP animations |
 
 ## Key conventions for AI assistants

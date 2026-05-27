@@ -191,12 +191,14 @@ body {
 
 .project-card {
   perspective: 800px;
+  height: 100%;
 }
 
 .project-card-inner {
   transform-style: preserve-3d;
   transition: transform 0.3s ease-out;
   will-change: transform;
+  height: 100%;
 }
 
 .project-card-float {
@@ -245,6 +247,145 @@ body {
     animation-duration: 5s;
   }
   .project-card-sheen::before { display: none; }
+}
+
+/* --- Project HUD Corners --- */
+.project-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  z-index: 2;
+}
+.project-corner::before,
+.project-corner::after {
+  content: '';
+  position: absolute;
+  background: rgba(20, 184, 166, 0.5);
+  border-radius: 1px;
+  transition: background 0.3s;
+}
+.project-card-inner:hover .project-corner::before,
+.project-card-inner:hover .project-corner::after {
+  background: rgba(20, 184, 166, 0.8);
+}
+.project-corner-tl { top: 8px; left: 8px; }
+.project-corner-tl::before { top: 0; left: 0; width: 14px; height: 1.5px; }
+.project-corner-tl::after { top: 0; left: 0; width: 1.5px; height: 14px; }
+.project-corner-tr { top: 8px; right: 8px; }
+.project-corner-tr::before { top: 0; right: 0; width: 14px; height: 1.5px; }
+.project-corner-tr::after { top: 0; right: 0; width: 1.5px; height: 14px; }
+.project-corner-bl { bottom: 8px; left: 8px; }
+.project-corner-bl::before { bottom: 0; left: 0; width: 14px; height: 1.5px; }
+.project-corner-bl::after { bottom: 0; left: 0; width: 1.5px; height: 14px; }
+.project-corner-br { bottom: 8px; right: 8px; }
+.project-corner-br::before { bottom: 0; right: 0; width: 14px; height: 1.5px; }
+.project-corner-br::after { bottom: 0; right: 0; width: 1.5px; height: 14px; }
+
+/* --- Project ID --- */
+.project-id {
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  color: rgba(20, 184, 166, 0.5);
+}
+
+/* --- Project Status Badge --- */
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.6rem;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--status-color, #14b8a6);
+}
+.project-status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--status-color, #14b8a6);
+  box-shadow: 0 0 6px var(--status-color, #14b8a6);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+.project-card-inner[data-status="PRODUCTION"] { --status-color: #14b8a6; }
+.project-card-inner[data-status="ACTIVE"] { --status-color: #22c55e; }
+.project-card-inner[data-status="BETA"] { --status-color: #eab308; }
+.project-card-inner[data-status="ARCHIVED"] { --status-color: #6b7280; }
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+/* --- Project Role Badge --- */
+.project-role {
+  font-size: 0.55rem;
+  letter-spacing: 0.05em;
+  color: rgba(113, 113, 122, 0.6);
+}
+
+/* --- Project Highlight Bullets --- */
+.project-highlight {
+  display: flex;
+  gap: 0.4rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* --- Project Skill Bars --- */
+.project-skill-row {
+  --i: 0;
+}
+.project-skill-track {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.project-skill-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(20, 184, 166, 0.8), rgba(20, 184, 166, 0.35));
+  width: 0;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal-stagger.visible .project-skill-fill {
+  width: var(--bar-width);
+}
+
+/* --- Project Scan Line --- */
+.project-scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.project-card-inner:hover .project-scanline {
+  opacity: 1;
+}
+.project-scanline::before {
+  content: '';
+  position: absolute;
+  left: -5%;
+  width: 110%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.25), transparent);
+  top: -2%;
+  animation: scanSweep 2.5s linear infinite;
+}
+
+@keyframes scanSweep {
+  0% { top: -2%; }
+  100% { top: 102%; }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .project-scanline { display: none; }
 }
 
 /* ---- Section Background Textures ---- */
@@ -364,60 +505,333 @@ body {
 
 /* ---- Mobile touch targets ---- */
 @media (max-width: 767px) {
-  .contact-link,
   .nav a,
   header a {
     min-height: 44px;
   }
-  .contact-link {
-    padding: 0.5rem 0;
-  }
 }
 
-/* ---- Contact Terminal ---- */
-.contact-link {
-  display: inline-flex;
+/* ---- HUD Communications Terminal ---- */
+.contact-frame {
+  position: relative;
+  background: rgba(13, 31, 28, 0.5);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  border-radius: 10px;
+  padding: 1.75rem;
+  overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.contact-frame:hover {
+  border-color: rgba(20, 184, 166, 0.35);
+  box-shadow: 0 0 30px rgba(20, 184, 166, 0.05);
+}
+
+/* Corner brackets */
+.contact-corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  z-index: 2;
+}
+.contact-corner::before,
+.contact-corner::after {
+  content: '';
+  position: absolute;
+  background: rgba(20, 184, 166, 0.4);
+  border-radius: 1px;
+  transition: background 0.3s;
+}
+.contact-frame:hover .contact-corner::before,
+.contact-frame:hover .contact-corner::after {
+  background: rgba(20, 184, 166, 0.7);
+}
+.contact-corner-tl { top: 8px; left: 8px; }
+.contact-corner-tl::before { top: 0; left: 0; width: 12px; height: 1.5px; }
+.contact-corner-tl::after { top: 0; left: 0; width: 1.5px; height: 12px; }
+.contact-corner-tr { top: 8px; right: 8px; }
+.contact-corner-tr::before { top: 0; right: 0; width: 12px; height: 1.5px; }
+.contact-corner-tr::after { top: 0; right: 0; width: 1.5px; height: 12px; }
+.contact-corner-bl { bottom: 8px; left: 8px; }
+.contact-corner-bl::before { bottom: 0; left: 0; width: 12px; height: 1.5px; }
+.contact-corner-bl::after { bottom: 0; left: 0; width: 1.5px; height: 12px; }
+.contact-corner-br { bottom: 8px; right: 8px; }
+.contact-corner-br::before { bottom: 0; right: 0; width: 12px; height: 1.5px; }
+.contact-corner-br::after { bottom: 0; right: 0; width: 1.5px; height: 12px; }
+
+/* Scan line */
+.contact-scanline {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.contact-frame:hover .contact-scanline {
+  opacity: 1;
+}
+.contact-scanline::before {
+  content: '';
+  position: absolute;
+  left: -5%;
+  width: 110%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.15), transparent);
+  top: -2%;
+  animation: scanSweep 2.5s linear infinite;
+}
+
+/* Top status bar */
+.contact-top-bar {
+  display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  text-decoration: none;
-  transition: color 0.2s;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(20, 184, 166, 0.08);
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.6rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.contact-top-title {
+  color: rgba(20, 184, 166, 0.6);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+.contact-top-sep {
+  color: rgba(20, 184, 166, 0.15);
+  flex-shrink: 0;
+}
+.contact-top-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: rgba(34, 197, 94, 0.8);
+  flex-shrink: 0;
+}
+.contact-top-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+.contact-top-label {
+  color: rgba(20, 184, 166, 0.4);
+  flex-shrink: 0;
+}
+.contact-top-fill {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(20, 184, 166, 0.1), transparent);
+}
+
+/* Channels container */
+.contact-channels {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
   position: relative;
+  z-index: 2;
 }
 
-.contact-link::before {
-  content: '>';
-  font-family: 'Inter', monospace;
-  color: rgba(20, 184, 166, 0.2);
+/* Individual channel row */
+.contact-channel {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.25s;
+  cursor: pointer;
+}
+.contact-channel:hover {
+  background: rgba(20, 184, 166, 0.04);
+}
+
+.contact-ch-id {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.6rem;
+  color: rgba(20, 184, 166, 0.35);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  min-width: 3.5rem;
+}
+
+/* Signal bars */
+.contact-signal {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 18px;
+  flex-shrink: 0;
+  min-width: 24px;
+}
+.sig-bar {
+  width: 3px;
+  background: rgba(20, 184, 166, 0.3);
+  border-radius: 1px;
+  transition: background 0.3s;
+}
+.contact-channel:hover .sig-bar {
+  background: rgba(20, 184, 166, 0.7);
+  animation: sigPulse 0.8s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.12s);
+}
+
+.contact-ch-name {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
   transition: color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-
-.contact-link:hover {
+.contact-channel:hover .contact-ch-name {
   color: var(--color-text-primary);
 }
 
-.contact-link:hover::before {
-  color: var(--color-accent);
+.contact-ch-gap {
+  flex: 1;
+  min-width: 0.5rem;
 }
 
-.contact-link .cursor-blink {
-  display: inline-block;
-  width: 6px;
-  height: 12px;
-  background: transparent;
-  margin-left: 2px;
-  transition: background 0.15s;
+.contact-ch-action {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.65rem;
+  color: rgba(20, 184, 166, 0.35);
+  letter-spacing: 0.08em;
+  transition: color 0.2s, text-shadow 0.2s;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+.contact-channel:hover .contact-ch-action {
+  color: #14b8a6;
+  text-shadow: 0 0 10px rgba(20, 184, 166, 0.4);
+  animation: flashAction 0.8s ease-in-out infinite;
+}
+.contact-ch-action-accent {
+  color: rgba(20, 184, 166, 0.5);
+}
+.contact-channel:hover .contact-ch-action-accent {
+  animation: flashAction 0.6s ease-in-out infinite;
 }
 
-.contact-link:hover .cursor-blink {
-  background: var(--color-accent);
+@keyframes flashAction {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Divider */
+.contact-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(20, 184, 166, 0.08), transparent);
+  margin: 0.75rem 0;
+}
+
+/* Terminal prompt */
+.contact-prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.7rem;
+  color: rgba(20, 184, 166, 0.4);
+  position: relative;
+  z-index: 2;
+}
+.contact-prompt-prefix {
+  color: rgba(20, 184, 166, 0.3);
+}
+.contact-prompt-text {
+  color: rgba(20, 184, 166, 0.5);
+}
+.contact-prompt-cursor {
+  color: rgba(20, 184, 166, 0.6);
   animation: blink 0.8s step-end infinite;
+  font-size: 0.65rem;
 }
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+@keyframes sigPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* Footer / availability */
+.contact-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.25rem;
+  position: relative;
+  z-index: 2;
+  flex-wrap: wrap;
+}
+.contact-avail {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.65rem;
+  font-family: 'Courier New', Courier, monospace;
+  color: rgba(34, 197, 94, 0.7);
+}
+.contact-avail-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+.contact-response {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.6rem;
+  font-family: 'Courier New', Courier, monospace;
+  color: rgba(20, 184, 166, 0.3);
+}
+.contact-response-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(20, 184, 166, 0.4);
+}
+
+@media (max-width: 767px) {
+  .contact-frame {
+    padding: 1.25rem;
+  }
+  .contact-top-bar {
+    font-size: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .contact-channel {
+    padding: 0.5rem 0.5rem;
+    gap: 0.5rem;
+  }
+  .contact-ch-name {
+    font-size: 0.75rem;
+  }
+  .contact-ch-id {
+    min-width: 2.8rem;
+  }
+  .contact-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }
 
 /* ---- Footer Stats ---- */

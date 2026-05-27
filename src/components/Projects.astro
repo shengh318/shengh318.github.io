@@ -9,24 +9,64 @@ import HudRepulsor from './hud/HudRepulsor.astro';
   <div class="max-w-5xl mx-auto">
     <div class="reveal section-content">
       <div class="section-title">
-        <span class="section-title-text">Projects</span>
+        <span class="section-title-text">_PROJECTS</span>
         <span class="section-title-line"></span>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-5">
-        {projects.map((project) => (
-          <div class="project-card project-card-float" data-tilt>
-            <div class="project-card-inner project-card-sheen bg-card border border-border rounded-lg p-6 md:p-8 hover:border-accent/20 transition-colors duration-300">
-              <h3 class="text-base font-semibold text-text-primary mb-2 relative z-10">{project.name}</h3>
-              <p class="text-sm text-text-secondary leading-relaxed mb-4 relative z-10">{project.description}</p>
-              <div class="flex flex-wrap gap-x-2.5 gap-y-1 relative z-10">
-                {project.skills.map((skill) => (
-                  <span class="text-xs text-text-muted">{skill.label}</span>
-                ))}
+      <div class="grid md:grid-cols-2 gap-5 reveal-stagger">
+        {projects.map((project, i) => {
+          const logNum = String(i + 1).padStart(3, '0');
+          return (
+            <div class="project-card project-card-float" data-tilt>
+              <div
+                class="project-card-inner project-card-sheen bg-card border border-border rounded-lg p-6 md:p-8 hover:border-accent/20 transition-colors duration-300"
+                data-status={project.status}
+              >
+                <div class="project-corner project-corner-tl"></div>
+                <div class="project-corner project-corner-tr"></div>
+                <div class="project-corner project-corner-bl"></div>
+                <div class="project-corner project-corner-br"></div>
+
+                <div class="project-scanline"></div>
+
+                <div class="flex items-center gap-3 mb-3 relative z-10">
+                  <span class="project-id font-mono font-medium text-text-muted">[PROJ-{logNum}]</span>
+                  <span class="project-status">
+                    <span class="project-status-dot"></span>
+                    <span class="project-status-label">{project.status}</span>
+                  </span>
+                  <span class="project-role font-mono text-text-muted">[{project.role}]</span>
+                </div>
+
+                <h3 class="text-base font-semibold text-text-primary mb-2 relative z-10">{project.name}</h3>
+
+                <p class="text-sm text-text-secondary leading-relaxed mb-4 relative z-10">{project.description}</p>
+
+                <div class="space-y-1 mb-4 relative z-10">
+                  {project.highlights.map((h) => (
+                    <div class="project-highlight text-xs font-mono text-text-muted">
+                      <span class="text-accent">&#9656;</span> {h}
+                    </div>
+                  ))}
+                </div>
+
+                <div class="space-y-1.5 relative z-10">
+                  {project.skills.map((skill, skillIdx) => (
+                    <div class="project-skill-row" style={`--i: ${skillIdx}`}>
+                      <div class="flex justify-between text-xs font-mono mb-0.5">
+                        <span class="text-text-muted">{skill.label}</span>
+                        <span class="text-text-muted/60">{skill.percent}%</span>
+                      </div>
+                      <div class="project-skill-track">
+                        <div class="project-skill-fill" style={`--bar-width: ${skill.percent}%;`}></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   </div>
